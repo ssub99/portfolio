@@ -1,0 +1,50 @@
+<!--
+  폰 목업 컴포넌트
+  - 실행: js/phone-mockup.js 로드 후 페이지에 <phone-mockup> 사용
+  - 아래 figure 블록은 생성 결과와 동일한 참고용 조각(직접 include하지 않음)
+
+  필수 속성: scroll-src, scroll-alt
+  선택: scroll-width(기본 375), scroll-height(기본 812), loading(lazy|eager),
+        chrome-src + chrome-width + chrome-height (스크롤+크롬 이중 레이어),
+        figure-class (figure에 추가 클래스, 예: case-key-fn__mockup),
+        aria-label (있으면 figure에 설정됨)
+
+  사용 예:
+  <phone-mockup
+    scroll-src="assets/image/awallet/section04-visual03.png"
+    scroll-width="375"
+    scroll-height="812"
+    scroll-alt="화면 설명"
+    aria-label="접근성 레이블"></phone-mockup>
+
+  === Figma (수동 이미지 대응) ===
+  TalkToFigma MCP는 로컬 PNG 업로드·이미지 채우기 API가 없음.
+  아래 노드에 Finder에서 파일을 드래그해 이미지 채우기로 지정하면 됨.
+  (프로젝트 루트 기준 경로 assets/image/awallet/…)
+
+  section04 프레임 727:10346
+    · image 610 727:10480  → section04-visual01.png
+    · image 611 727:10481  → section04-visual02.png
+    · Screen01 안쪽 (피그마가 스크롤+크롬 2장 구조):
+        - image 615 727:10487 → mockup-screen01-scroll.png (1517)
+        - image 641 727:10488 → mockup-screen01-chrome.png (812)
+        웹 case-design-dir 세 번째 슬롯과 동일하게 하려면: 615만
+        section04-visual03.png(812)로 채우고 641 레이어는 숨기거나 삭제.
+    · image 612 727:10482  → section04-visual04.png
+    · image 613 727:10483  → section04-visual05.png
+
+  section05 프레임 748:8216 / Screen01 727:10648
+    · image 641 727:10651 → section05-visual01.png
+
+  컴포넌트화: 피그마에서 기존 Screen01 프레임 선택 → 오른쪽 상단 Create component.
+  이후 복제·스왑 시 베젤·마스크 구조를 유지할 수 있음.
+-->
+<figure class="phone-mockup">
+  <div class="phone-mockup__bezel">
+    <div class="phone-mockup__screen">
+      <div class="phone-mockup__body">
+        <img class="phone-mockup__scroll" src="" alt="" width="375" height="812" decoding="async" loading="lazy">
+      </div>
+    </div>
+  </div>
+</figure>

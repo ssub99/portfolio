@@ -1,0 +1,10 @@
+.DS_Store
+.cursor/
+
+# 로컬 Figma MCP 패키지(별도 Git 저장소·용량 큼) — 사이트 배포와 무관
+cursor-talk-to-figma-mcp/
+
+node_modules/
+.env
+.env.*
+*.log

@@ -1,0 +1,2809 @@
+/*
+  순서: Base → Utilities → Header → Hero → Projects → Reveal →
+  Pager / Closing / Footer → Work(PROJECT) → Case study(본문·공통 타이포 → 비주얼 → 섹션02~11 순).
+*/
+/* ===== Base ===== */
+:root {
+  --color-bg: #ffffff;
+  --color-text: #000000;
+  --color-muted: #686868;
+  --color-quote: #9f9f9f;
+  --color-accent: #3052ff;
+  --color-badge: #ff2b2b;
+  --color-header-bg: rgba(242, 242, 242, 0.5);
+  --color-header-border: #eaeaea;
+  --color-card-border: #e8e8e8;
+  --color-card-1: #fdfdfd;
+  --color-card-rose: #fff5f5;
+  --color-card-gray: #f6f6f6;
+  --color-card-warm: #fffcf4;
+  --space-page: clamp(1.5rem, 5vw, 4.5rem);
+  --max-content: 1776px;
+  /* 셀프라이브 등 통 PNG: 피그마 아트보드 가로 1920 기준 */
+  --selflive-full-visual-max: 1920px;
+  /* EN 섹션 타이틀 행(.case-en-layout): 모든 프로젝트 동일 비율 — 좌 라벨 : 간격 : 우 본문 = 85:123:312fr */
+  --case-en-col-label: 85fr;
+  --case-en-col-gutter: 123fr;
+  --case-en-col-main: 312fr;
+  /* 케이스 스터디: 히어로→본문·연속 섹션·에이월렛 등 세로 간격 공통값 */
+  --case-study-section-gap: 96px;
+  --font: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  /* 피그마: DINPro Bold. 로컬/라이선스 폰트 우선 → 없으면 웹폰트 Barlow Condensed(비슷한 산세리프) */
+  --font-logo: "DIN Pro", "DINPro", DINPro, "Barlow Condensed", "Arial Narrow", sans-serif;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* PC 뷰(800px~): 좌우 페이지 인셋을 넓은 화면과 동일하게 — :root clamp의 상한(4.5rem)과 동일 값 고정 */
+@media (min-width: 800px) {
+  :root {
+    --space-page: 4.5rem;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .site-header,
+  .site-header__inner {
+    transition-duration: 0.01ms;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-text);
+  background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ===== Utilities ===== */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 브랜드명 A·Wallet — 가운데 점만 작게 */
+.brand-dot {
+  display: inline-block;
+  font-size: 0.58em;
+  line-height: 1;
+  vertical-align: 0.28em;
+  margin-inline: 0.03em;
+  font-weight: inherit;
+}
+
+/* ===== Header ===== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: 96px;
+  padding: 0;
+  background: var(--color-header-bg);
+  border-bottom: 1px solid var(--color-header-border);
+  backdrop-filter: blur(8px);
+  transition:
+    height 1s var(--ease-out),
+    padding 1s var(--ease-out),
+    background-color 1s var(--ease-out),
+    border-color 1s var(--ease-out),
+    backdrop-filter 1s var(--ease-out);
+}
+
+.site-header__inner {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 var(--space-page);
+  height: 96px;
+  min-height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 0;
+  border: 1px solid transparent;
+  background: transparent;
+  box-shadow: none;
+  transition:
+    max-width 1s var(--ease-out),
+    border-radius 1s var(--ease-out),
+    box-shadow 1s var(--ease-out),
+    background-color 1s var(--ease-out),
+    border-color 1s var(--ease-out),
+    backdrop-filter 1s var(--ease-out);
+}
+
+/* 숏 헤더: 상단 56px, 가로는 일반 헤더·푸터와 동일(페이지 패딩만), radius 48 */
+.site-header--compact {
+  /* auto는 height 보간 불가 → 숏·롱 모두 고정값으로 1s 전환이 대칭되게 */
+  height: calc(56px + 96px + 12px);
+  padding: 56px var(--space-page) 12px;
+  background: transparent;
+  border-bottom-color: transparent;
+  backdrop-filter: none;
+}
+
+.site-header--compact .site-header__inner {
+  max-width: 100%;
+  height: 96px;
+  min-height: 96px;
+  padding: 0 var(--space-page);
+  border-radius: 48px;
+  border: 1px solid var(--color-header-border);
+  background: var(--color-header-bg);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+}
+
+/* 다른 요소에 헤더와 같은 폰트만 쓰려면: class에 font-logo 추가, 또는 font-family: var(--font-logo); */
+.font-logo {
+  font-family: var(--font-logo);
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.site-logo {
+  font-family: var(--font-logo);
+  font-weight: 700;
+  font-size: clamp(1.125rem, 3.5vw, 1.75rem);
+  line-height: calc(36 / 28);
+  letter-spacing: 0;
+  transition: opacity 0.2s var(--ease-out);
+}
+
+.site-logo:hover {
+  opacity: 0.65;
+}
+
+.site-nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: clamp(1rem, 3vw, 2.5rem);
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.site-nav a {
+  position: relative;
+  box-sizing: border-box;
+  display: inline-block;
+  width: fit-content;
+  max-width: 100%;
+  font-weight: 400;
+  text-align: right;
+}
+
+.site-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s var(--ease-out);
+}
+
+.site-nav a:hover::after,
+.site-nav a:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.site-nav a[aria-current="page"] {
+  font-weight: 600;
+}
+
+/* ===== Mobile gate — 피그마 Mobile 758:1282·카드 758:1293·제목 758:1323·본문 758:1325 — 799px 이하 ===== */
+@media (max-width: 799px) {
+  html.mobile-gate--open,
+  body.mobile-gate--open {
+    overflow: hidden;
+  }
+
+  body.mobile-gate--open > .site-header,
+  body.mobile-gate--open > main,
+  body.mobile-gate--open > .site-chrome-footer {
+    display: none !important;
+  }
+
+  .mobile-gate {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-height: 100dvh;
+    background: #ffffff;
+  }
+
+  .mobile-gate__bar {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    height: 96px;
+    padding: 0 32px;
+    background: var(--color-header-bg);
+    border-bottom: 1px solid var(--color-header-border);
+  }
+
+  .mobile-gate__brand {
+    margin: 0;
+    font-family: var(--font-logo);
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 36px;
+    letter-spacing: 0;
+    color: #000000;
+  }
+
+  .mobile-gate__card {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 16px;
+    border-radius: 16px;
+    background: #f8f8f8;
+    min-height: 0;
+  }
+
+  .mobile-gate__card-inner {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 32px 16px;
+    text-align: center;
+  }
+
+  .mobile-gate__wave {
+    margin: 0 0 32px;
+    font-size: 72px;
+    line-height: 1;
+    font-weight: 700;
+    font-family: var(--font);
+  }
+
+  .mobile-gate__title {
+    margin: 0 0 4px;
+    font-family: var(--font);
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 27px;
+    letter-spacing: 0;
+    color: #000000;
+  }
+
+  .mobile-gate__copy {
+    margin: 0;
+    font-family: var(--font);
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 27px;
+    letter-spacing: 0;
+    color: #686868;
+  }
+}
+
+@media (min-width: 800px) {
+  #mobile-gate {
+    display: none !important;
+  }
+}
+
+/* ===== Hero ===== */
+/* 홈: 히어로 ↔ 프로젝트 섹션 간격 72px(하단 패딩만, .projects 상단 패딩 0과 합산) */
+.hero {
+  padding: clamp(3rem, 8vw, 6rem) var(--space-page) 72px;
+}
+
+.hero__inner {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.hero__title {
+  margin: 0 0 2.5rem;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 400;
+  line-height: 1.29;
+  letter-spacing: -0.02em;
+}
+
+.hero__title-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  font-weight: 700;
+}
+
+.hero-type {
+  display: inline-block;
+}
+
+.hero-type__track {
+  position: relative;
+  display: inline-block;
+}
+
+.hero-type__measure {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.hero-type__line {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  height: 100%;
+}
+
+.hero-type__text {
+  display: inline;
+}
+
+.hero-type__cursor {
+  display: inline-block;
+  width: 0.07em;
+  min-width: 3px;
+  height: 0.85em;
+  margin-left: 0.06em;
+  background: var(--color-accent);
+  vertical-align: -0.06em;
+  animation: hero-cursor-blink 1s steps(1, end) infinite;
+}
+
+@keyframes hero-cursor-blink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-type__cursor {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+.hero__body {
+  color: var(--color-muted);
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.hero__body p {
+  margin: 0 0 1rem;
+}
+
+.hero__body p:last-child {
+  margin-bottom: 0;
+}
+
+/* ===== Projects ===== */
+/* 피그마: 타이틀+카드 영역 하단 패딩 32px, 타이틀↔그리드 간격 32px / 그리드 행 56px·열 16px — 상단은 히어로와 72px 간격(.hero padding-bottom) */
+.projects {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 0 var(--space-page) 32px;
+}
+
+.projects__head {
+  width: 100%;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.projects__label {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.projects__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 6px;
+  border-radius: 12px;
+  background: var(--color-badge);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.project-grid {
+  width: 100%;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 56px 16px;
+}
+
+@media (max-width: 1200px) {
+  .project-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.project-card__link {
+  display: block;
+  height: 100%;
+}
+
+.project-card__media {
+  position: relative;
+  border-radius: 48px;
+  border: 1px solid var(--color-card-border);
+  background: var(--color-card-1);
+  overflow: hidden;
+  aspect-ratio: 582 / 480;
+  transition:
+    transform 0.45s var(--ease-out),
+    box-shadow 0.45s var(--ease-out);
+}
+
+.project-card__media--neutral {
+  background: var(--color-card-1);
+}
+
+.project-card__media--rose {
+  background: var(--color-card-rose);
+}
+
+.project-card__media--gray {
+  background: var(--color-card-gray);
+}
+
+.project-card__media--warm {
+  background: var(--color-card-warm);
+}
+
+.project-card__media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.project-card__link:hover .project-card__media,
+.project-card__link:focus-visible .project-card__media {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.08);
+}
+
+.project-grid .project-card__body {
+  padding-top: 1.5rem;
+}
+
+.project-card__title {
+  margin: 0 0 16px;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.project-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  border: 1px solid var(--color-text);
+  border-radius: 32px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* ===== Reveal on scroll ===== */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.6s var(--ease-out),
+    transform 0.6s var(--ease-out);
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Stagger children in grid */
+.project-grid [data-reveal]:nth-child(1) { transition-delay: 0.02s; }
+.project-grid [data-reveal]:nth-child(2) { transition-delay: 0.06s; }
+.project-grid [data-reveal]:nth-child(3) { transition-delay: 0.1s; }
+.project-grid [data-reveal]:nth-child(4) { transition-delay: 0.04s; }
+.project-grid [data-reveal]:nth-child(5) { transition-delay: 0.08s; }
+.project-grid [data-reveal]:nth-child(6) { transition-delay: 0.12s; }
+
+/* Case study 메인: 블록별 스크롤 리빌(직계 자식만, 푸터 제외) */
+.case-study > [data-reveal]:nth-child(1) { transition-delay: 0.02s; }
+.case-study > [data-reveal]:nth-child(2) { transition-delay: 0.05s; }
+.case-study > [data-reveal]:nth-child(3) { transition-delay: 0.08s; }
+.case-study > [data-reveal]:nth-child(4) { transition-delay: 0.11s; }
+.case-study > [data-reveal]:nth-child(5) { transition-delay: 0.04s; }
+.case-study > [data-reveal]:nth-child(6) { transition-delay: 0.07s; }
+.case-study > [data-reveal]:nth-child(7) { transition-delay: 0.1s; }
+.case-study > [data-reveal]:nth-child(8) { transition-delay: 0.13s; }
+.case-study > [data-reveal]:nth-child(9) { transition-delay: 0.06s; }
+.case-study > [data-reveal]:nth-child(10) { transition-delay: 0.09s; }
+.case-study > [data-reveal]:nth-child(11) { transition-delay: 0.12s; }
+.case-study > [data-reveal]:nth-child(12) { transition-delay: 0.15s; }
+.case-study > [data-reveal]:nth-child(13) { transition-delay: 0.18s; }
+.case-study > [data-reveal]:nth-child(14) { transition-delay: 0.21s; }
+.case-study > [data-reveal]:nth-child(15) { transition-delay: 0.24s; }
+.case-study > [data-reveal]:nth-child(16) { transition-delay: 0.27s; }
+
+/* ===== 프로젝트 케이스: 이전/다음(피그마: 280×108, r60) — 좌우는 본문·case-inner와 동일 인셋(--space-page) ===== */
+.project-pager {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  max-width: var(--max-content);
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 72px;
+  padding: 0 var(--space-page);
+}
+
+.project-pager__btn {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  flex: 0 1 280px;
+  width: 280px;
+  max-width: 100%;
+  min-height: 108px;
+  padding: 30px 32px;
+  border-radius: 60px;
+  background: #f0f0f0;
+  color: var(--color-text);
+  font-family: var(--font);
+  font-size: 21px;
+  font-weight: 400;
+  line-height: 1.5;
+  text-decoration: none;
+  transition:
+    opacity 0.2s var(--ease-out),
+    background-color 0.2s var(--ease-out);
+}
+
+.project-pager__btn:hover {
+  background-color: #e8e8e8;
+}
+
+.project-pager__btn:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/* 피그마: 상·하 30px, 이전 pad 16·48, 다음 pad 48·16, 아이콘–텍스트 16 / 52 */
+.project-pager__btn--prev {
+  justify-content: flex-start;
+  gap: 16px;
+  padding: 30px 48px 30px 16px;
+}
+
+.project-pager__btn--next {
+  justify-content: flex-end;
+  gap: 52px;
+  padding: 30px 16px 30px 48px;
+}
+
+.project-pager__icon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+}
+
+.project-pager__icon img {
+  width: 48px;
+  height: 48px;
+  max-width: none;
+}
+
+.project-pager__label {
+  white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  .project-pager {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .project-pager__btn {
+    flex: 1 1 auto;
+    width: 100%;
+    max-width: none;
+    justify-content: center;
+    padding: 30px 24px;
+  }
+
+  .project-pager__label {
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+/* ===== Closing(피그마 Frame 14: 상·하 39px — 가로는 project-pager·--space-page와 동일 인셋) ===== */
+.closing {
+  box-sizing: border-box;
+  max-width: var(--max-content);
+  margin-left: auto;
+  margin-right: auto;
+  padding: 39px var(--space-page);
+}
+
+.closing__inner {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(2rem, 4vw, 64px);
+}
+
+.closing__line {
+  margin: 0;
+  font-size: clamp(1rem, 2.2vw, 1.3125rem);
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--color-quote);
+}
+
+/* ===== Footer(클로징 카피 + 연락처 한 덩어리) ===== */
+.site-chrome-footer {
+  margin-top: clamp(2rem, 5vw, 4rem);
+}
+
+.site-footer {
+  margin-top: 0;
+  padding: clamp(2rem, 5vw, 3.5rem) 0 clamp(2rem, 6vw, 4rem);
+  border-top: 1px solid var(--color-card-border);
+}
+
+.site-footer__inner {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--max-content);
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 var(--space-page);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.site-footer__copy {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-quote);
+}
+
+.site-footer__contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem 2rem;
+  font-size: 18px;
+}
+
+.site-footer__contact a {
+  position: relative;
+  transition: opacity 0.2s var(--ease-out);
+}
+
+.site-footer__contact a:hover {
+  opacity: 0.55;
+}
+
+/* ===== Work (PROJECT) page ===== */
+.project-page__intro {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: clamp(4rem, 10vw, 10rem) var(--space-page) clamp(3rem, 12vw, 10rem);
+  text-align: center;
+}
+
+.project-page__title {
+  margin: 0;
+  font-family: var(--font-logo);
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  font-weight: 900;
+  line-height: 1.25;
+  letter-spacing: 0;
+  text-align: center;
+}
+
+.project-page__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 8px;
+  border-radius: 24px;
+  background: var(--color-badge);
+  color: #fff;
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.project-list {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 0 var(--space-page) 0;
+}
+
+/* 프로젝트 페이지: 카드 목록 아래—데스크톱은 calc로 tail pad 합산, 모바일은 짧게 */
+.project-page .project-list {
+  padding-bottom: 28px;
+}
+
+/* 카드↔클로징: 상단 패딩 없음, 리스트 padding으로만 간격(.site-chrome-footer는 main 바로 다음) */
+main.project-page + .site-chrome-footer .closing {
+  padding-top: 0;
+  padding-bottom: 39px;
+}
+
+/* transform 있으면 sticky 불가 → 프로젝트 카드는 페이드만 */
+.project-page .project-list > .project-card[data-reveal] {
+  transform: none;
+  transition: opacity 0.55s var(--ease-out);
+}
+
+.project-page .project-list > .project-card[data-reveal].is-visible {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-page .project-list > .project-card[data-reveal] {
+    transition: none;
+  }
+}
+
+/* 스크롤 시 같은 top에 쌓임 — 카드 간 간격은 flex gap 32px */
+@media (min-width: 961px) {
+  .project-page .project-list {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    --project-stack-base: clamp(152px, 22vh, 232px);
+    padding-bottom: calc(28px + var(--project-stack-tail-pad, 0px));
+  }
+
+  .project-page .project-list > .project-card {
+    position: sticky;
+    top: var(--project-stack-base);
+    box-shadow: 0 -6px 32px rgba(0, 0, 0, 0.05);
+    flex-shrink: 0;
+  }
+
+  .project-page .project-list > .project-card:nth-child(1) {
+    z-index: 1;
+  }
+
+  .project-page .project-list > .project-card:nth-child(2) {
+    z-index: 2;
+  }
+
+  .project-page .project-list > .project-card:nth-child(3) {
+    z-index: 3;
+  }
+
+  .project-page .project-list > .project-card:nth-child(4) {
+    z-index: 4;
+  }
+
+  .project-page .project-list > .project-card:nth-child(5) {
+    z-index: 5;
+  }
+
+  .project-page .project-list > .project-card:nth-child(6) {
+    z-index: 6;
+  }
+
+  .project-page .project-list > .project-card:nth-child(n + 7) {
+    z-index: 7;
+  }
+}
+
+@media (min-width: 961px) and (prefers-reduced-motion: reduce) {
+  .project-page .project-list {
+    padding-bottom: 28px;
+  }
+
+  .project-page .project-list > .project-card {
+    position: relative;
+    top: auto;
+    z-index: auto;
+    box-shadow: none;
+  }
+}
+
+/* WORK 페이지(.project-list) 전용 큰 카드 — 메인 그리드 .project-card에는 적용하지 않음 */
+.project-page .project-list > .project-card {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: 56px;
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+  padding: 51px 56px;
+  background: #f6f6f6;
+  border: 1px solid #fbfbfb;
+  border-radius: 64px;
+  box-sizing: border-box;
+}
+
+/* 상세 페이지로 이어지는 카드: 카드 전체 클릭(스토어 등 보조 링크는 위 레이어) */
+.project-page .project-list > .project-card--linked {
+  cursor: pointer;
+}
+
+/* 썸네일·텍스트 레이어가 오버레이 링크보다 위에 올라가 클릭이 막히는 경우 대비 */
+.project-page .project-list > .project-card--linked .project-card__thumb,
+.project-page .project-list > .project-card--linked .project-card__content {
+  pointer-events: none;
+}
+
+.project-page .project-card__hit-area {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  pointer-events: auto;
+}
+
+.project-page .project-card__hit-area:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.project-page .project-list > .project-card--linked .project-card__stores {
+  position: relative;
+  z-index: 2;
+  pointer-events: auto;
+}
+
+.project-card__thumb {
+  position: relative;
+  flex: 0 0 auto;
+  aspect-ratio: 560 / 480;
+  width: 100%;
+  max-width: 560px;
+  border-radius: 48px;
+  border: 1px solid var(--color-card-border);
+  overflow: hidden;
+  background: var(--color-card-1);
+  align-self: flex-start;
+}
+
+.project-card__thumb--neutral {
+  background: #fdfdfd;
+}
+
+.project-card__thumb--rose {
+  background: #fff5f5;
+}
+
+.project-card__thumb--ds {
+  background: #f6f6f6;
+}
+
+.project-card__thumb--warm {
+  background: #fffcf4;
+}
+
+.project-card__thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.project-card__content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+/* 시안: 본문 컬럼 상단 24px 들여쓰기(썸네일 대비); 성과지표·스토어는 컬럼 하단 */
+@media (min-width: 961px) {
+  .project-card__content {
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+
+  .project-card__content > .project-metrics,
+  .project-card__content > .project-card__stores {
+    margin-top: auto;
+  }
+}
+
+/* WORK 상세 카드 제목 — 그리드용 .project-card__title(위쪽)과 분리 */
+.project-page .project-card__title {
+  margin: 0;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+}
+
+.project-page .project-card__title a {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.2s var(--ease-out);
+}
+
+.project-page .project-card__title a:hover,
+.project-page .project-card__title a:focus-visible {
+  opacity: 0.72;
+}
+
+.project-page .project-card__body {
+  margin: 0;
+  padding: 0;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #767676;
+}
+
+.project-card__stores {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.project-card__store {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  flex-shrink: 0;
+  text-decoration: none;
+  overflow: hidden;
+}
+
+.project-card__store img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 42%;
+  max-height: 48%;
+  object-fit: contain;
+}
+
+.project-card__store--light img {
+  max-width: 45%;
+  max-height: 46%;
+}
+
+.project-card__store--dark {
+  background: #1c1c1c;
+}
+
+.project-card__store--light {
+  background: #e5e5e5;
+}
+
+.project-metrics--row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0;
+}
+
+.project-metrics__rule {
+  width: 1px;
+  height: 32px;
+  margin: 0 clamp(10px, 2vw, 24px);
+  background: #bababa;
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.project-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.project-metric__label {
+  font-size: 21px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #767676;
+}
+
+.project-metric__value {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #3d3d3d;
+}
+
+.project-metrics--selflive .project-metric__pair {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(8px, 2vw, 16px);
+}
+
+.project-metrics--selflive .project-metric__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.project-metrics--selflive .project-metric__arrow img {
+  display: block;
+  width: 9px;
+  height: 12px;
+}
+
+@media (max-width: 960px) {
+  .project-page .project-list > .project-card {
+    position: relative;
+    top: auto;
+    z-index: auto;
+    box-shadow: none;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: clamp(24px, 5vw, 40px);
+    padding: clamp(24px, 6vw, 51px) clamp(24px, 6vw, 56px);
+    border-radius: 48px;
+  }
+
+  .project-page .project-list .project-card__thumb {
+    align-self: stretch;
+    max-width: none;
+    width: 100%;
+  }
+
+  .project-page .project-list .project-card__content {
+    flex: none;
+    padding-top: 0;
+    max-width: none;
+  }
+
+  .project-page .project-list .project-card__content > .project-metrics,
+  .project-page .project-list .project-card__content > .project-card__stores {
+    margin-top: 0;
+  }
+}
+
+/* ===== Case study (프로젝트 상세) ===== */
+/* 좌우: 홈 히어로·프로젝트와 동일 — :root --space-page(800px~ 4.5rem 고정) */
+.case-study {
+  padding: clamp(24px, 4vw, 48px) var(--space-page) 0;
+}
+
+.case-hero {
+  max-width: var(--max-content);
+  margin: 0 auto;
+  padding: 0;
+}
+
+.case-hero__frame {
+  border-radius: 48px;
+  border: 1px solid #e8e8e8;
+  background: #fdfdfd;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.case-hero__frame img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ---------- 본문·그리드(히어로 메타·Selflive) ---------- */
+
+/* 히어로 ↔ 본문 메타: --case-study-section-gap 과 동일 */
+.case-body {
+  margin-top: var(--case-study-section-gap);
+}
+
+.case-inner {
+  max-width: var(--max-content);
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* EN 라벨 + 본문 행 — 비율은 :root 토큰으로 전 프로젝트 통일 */
+.case-en-layout {
+  display: grid;
+  grid-template-columns:
+    minmax(0, var(--case-en-col-label))
+    minmax(0, var(--case-en-col-gutter))
+    minmax(0, var(--case-en-col-main));
+  align-items: start;
+}
+
+/* 히어로: 좌 40% | 우 60%(= EN 좌·우 합 비율과 맞춤) */
+.case-body__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 40fr) minmax(0, 60fr);
+  align-items: start;
+}
+
+.case-body__gutter-left {
+  min-width: 0;
+}
+
+.case-body__main {
+  min-width: 0;
+  /* 우측 본문 칸 기준: 시안 53 / 1088(설계 시 본문 칸 폭) */
+  padding-right: calc(100% * 53 / 1088);
+}
+
+.case-body__title {
+  margin: 0 0 24px;
+  font-size: clamp(1.75rem, 4.2vw, 3rem);
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: #323030;
+}
+
+.case-body__lead {
+  margin: 0 0 48px;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 27px;
+  color: #797979;
+}
+
+.case-meta {
+  display: grid;
+  /* 피그마 Frame 1000004712 / 4713 / 4714: 폭 356·318·237, 열 간격 32 */
+  grid-template-columns: 356px 318px 237px;
+  gap: 32px;
+  margin: 0;
+}
+
+.case-meta__group {
+  margin: 0;
+}
+
+.case-meta__label {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 27px;
+  letter-spacing: 0.5px;
+  color: #adadad;
+}
+
+.case-meta__value-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 31.5px;
+  letter-spacing: 0;
+  color: #1c1c1c;
+}
+
+.case-meta__sep {
+  display: inline-block;
+  width: 1px;
+  height: 11px;
+  margin: 0 12px;
+  background: #c4c4c4;
+  flex-shrink: 0;
+  align-self: center;
+}
+
+/* 시안 고정폭(356+318+237+64 gap)이 우측 60% 칸보다 넓을 때 한 줄로 쌓음 */
+@media (max-width: 1100px) {
+  .case-meta {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 케이스 히어로(섹션00): 타이틀·리드·메타 공통 — 프로젝트별 폭만 수정자로 분기 */
+.case-body__title--case-hero {
+  max-width: 646px;
+  font-size: clamp(28px, 4.2vw, 48px);
+  line-height: 1.5;
+  font-weight: 700;
+  color: #323030;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+/* 라틴 약어·슬래시 조합(UX/UI 등) — 슬래스 뒤 한 글자만 다음 줄로 떨어지는 현상 방지 */
+.case-hero-title__latcluster {
+  white-space: nowrap;
+}
+
+/* 청구서 섹션00 타이틀: 피그마 737:6749 (width 626) */
+.case-body__title--case-hero-tight {
+  max-width: 626px;
+}
+
+/* 라이브클래스 섹션00 H1: 피그마 740:13050 (width 876, 48/72 Bold #323030) */
+.case-body__title--case-hero-liveclass {
+  max-width: 876px;
+}
+
+.case-meta--case-hero {
+  grid-template-columns: repeat(4, max-content);
+  width: max-content;
+  max-width: none;
+  gap: 32px;
+}
+
+.case-meta--case-hero .case-meta__group {
+  min-width: max-content;
+}
+
+.case-meta--case-hero .case-meta__label {
+  margin: 0;
+  padding: 0;
+  color: #323030;
+  letter-spacing: 0;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 27px;
+  white-space: nowrap;
+}
+
+.case-meta--case-hero .case-meta__value-row {
+  margin: 0;
+  padding: 0;
+  color: #797979;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  line-height: 31.5px;
+  white-space: nowrap;
+}
+
+.case-meta--case-hero .case-meta__value-row span {
+  white-space: inherit;
+}
+
+.case-body__main:has(.case-meta--case-hero) {
+  overflow-x: auto;
+  overflow-y: visible;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ----- 케이스 스터디 섹션 세로 간격: :root --case-study-section-gap + .case-section-mt-after-hero | .case-section-mt-stack ----- */
+
+.case-section-mt-after-hero {
+  margin-top: var(--case-study-section-gap);
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+}
+
+.case-section-mt-stack {
+  margin-top: var(--case-study-section-gap);
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+}
+
+.case-selflive-p07 {
+  margin-top: 0;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+}
+
+/* 섹션14: 타이틀 직후 단일 lead 내 아이브로 */
+.case-selflive-p14__lead-eyebrow {
+  display: block;
+}
+
+.case-selflive-p06__eyebrow.case-en-section-eyebrow,
+.case-selflive-p08__eyebrow.case-en-section-eyebrow,
+.case-selflive-p11__eyebrow.case-en-section-eyebrow {
+  color: #bebebe;
+}
+
+/* 섹션02:통 PNG 전용 inner(case-inner 미사용) — 셀프라이브·판매관리 섹션03 + .case-fullbleed__inner */
+.case-selflive-p02__inner,
+.case-sales-mgmt-p03__inner,
+.case-sales-mgmt-p11__inner,
+.case-fullbleed__inner {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* 셀프라이브 등: 카피 아래 통 PNG 밴드 래퍼(패딩 없음) */
+.case-study-visual-band {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* 통 PNG figure: 1920 상한·가운데 정렬(라이브클래스·청구서 .case-fullbleed__figure 포함) */
+.case-study-fullbleed-figure,
+.case-fullbleed__figure {
+  margin: 0;
+  line-height: 0;
+  max-width: var(--selflive-full-visual-max);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.case-study-fullbleed-figure img,
+.case-fullbleed__figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* 섹션14 보조지표 통 PNG: 가로는 main.case-study 인셋만(이중 --space-page 금지)·figure max 1776·radius 없음 */
+.case-selflive-p14__visual {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+.case-selflive-p14__visual .case-selflive-p14__figure {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--max-content);
+  margin: 0 auto;
+  line-height: 0;
+}
+
+/* 셀프라이브·판매관리 통 PNG 시각 밴드 배경(피그마 보드 톤) — .case-fullbleed__inner 기본은 배경 없음, 필요한 섹션만 아래에서 지정 */
+.case-selflive-p02__inner,
+.case-study-visual-band {
+  background-color: #fafafa;
+}
+
+.case-selflive-p06__visual.case-study-visual-band,
+.case-selflive-p09__visual.case-study-visual-band,
+.case-selflive-p12__visual.case-study-visual-band {
+  background-color: transparent;
+}
+
+.case-liveclass-p03 .case-fullbleed__inner,
+.case-payment-p02 .case-fullbleed__inner,
+.case-payment-p04 .case-fullbleed__inner,
+.case-rallyzds-p02 > .case-fullbleed__inner {
+  background-color: #fafafa;
+}
+
+.case-sales-mgmt-p01 .case-en-main > .case-en-main-stack__figure {
+  margin-top: 56px;
+  margin-bottom: 0;
+}
+
+.case-sales-mgmt-p02 .case-en-main > .case-en-main-stack__figure {
+  margin-top: 56px;
+  margin-bottom: 0;
+}
+
+.case-sales-mgmt-p02 .case-en-main > .case-en-main-stack__figure ~ .case-en-main-stack__figure {
+  margin-top: 16px;
+}
+
+.case-sales-mgmt-p04 .case-en-main > .case-en-main-stack__figure {
+  margin-top: 56px;
+  margin-bottom: 0;
+}
+
+.case-sales-mgmt-p04 .case-en-main > .case-en-main-stack__figure ~ .case-en-main-stack__figure {
+  margin-top: 16px;
+}
+
+/* 판매관리 섹션05·07·09: 2열 카드 — 콘텐츠 폭 + 항목 간 gap 48px */
+.case-sales-mgmt-p05__points,
+.case-sales-mgmt-p07__points,
+.case-sales-mgmt-p09__points {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 48px;
+  margin-top: 0;
+}
+
+.case-sales-mgmt-p05__point,
+.case-sales-mgmt-p07__pain,
+.case-sales-mgmt-p09__solution {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.case-sales-mgmt-p05__point-badge,
+.case-sales-mgmt-p07__pain-badge,
+.case-sales-mgmt-p09__solution-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-sizing: border-box;
+  padding: 8px 12px 8px 8px;
+  border: 1px solid #5b5b5b;
+  border-radius: 24px;
+  background-color: #f9f9f9;
+}
+
+.case-sales-mgmt-p05__point-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background-color: #3b3b3b;
+  font-family: var(--font);
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 24px;
+  letter-spacing: 0;
+  color: #ffffff;
+}
+
+/* 섹션07 pain point: 번호 뱃지 피그마 #f53e56 */
+.case-sales-mgmt-p07__pain-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background-color: #f53e56;
+  font-family: var(--font);
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 24px;
+  letter-spacing: 0;
+  color: #ffffff;
+}
+
+/* 판매관리 섹션09 solution: 번호 뱃지 피그마 #546dec */
+.case-sales-mgmt-p09__solution-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background-color: #546dec;
+  font-family: var(--font);
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 24px;
+  letter-spacing: 0;
+  color: #ffffff;
+}
+
+.case-sales-mgmt-p05__point-badge-text,
+.case-sales-mgmt-p07__pain-badge-text,
+.case-sales-mgmt-p09__solution-badge-text {
+  font-family: var(--font);
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 24px;
+  letter-spacing: 0;
+  color: #000000;
+}
+
+.case-sales-mgmt-p05__point-title,
+.case-sales-mgmt-p07__pain-title,
+.case-sales-mgmt-p09__solution-title {
+  margin: 12px 0 0;
+  font-family: var(--font);
+  font-size: 21px;
+  font-weight: 800;
+  line-height: 31.5px;
+  letter-spacing: 0;
+  color: #323030;
+}
+
+.case-sales-mgmt-p05__point-text,
+.case-sales-mgmt-p07__pain-text,
+.case-sales-mgmt-p09__solution-text {
+  margin: 12px 0 0;
+  font-family: var(--font);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 27px;
+  letter-spacing: 0;
+  color: #797979;
+}
+
+/* 판매관리 섹션05·07·09 비주얼: 이미지 영역 상·하 패딩·마진 제거, 회색 띠 제거 */
+.case-sales-mgmt-p05__visual,
+.case-sales-mgmt-p07__visual,
+.case-sales-mgmt-p09__visual {
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.case-sales-mgmt-p05__visual .case-section__visual,
+.case-sales-mgmt-p07__visual .case-section__visual,
+.case-sales-mgmt-p09__visual .case-section__visual {
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  background-color: transparent;
+  line-height: 0;
+}
+
+.case-sales-mgmt-p05__visual .case-section__media,
+.case-sales-mgmt-p07__visual .case-section__media,
+.case-sales-mgmt-p09__visual .case-section__media {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* 판매관리 섹션06: The first task Result — KPI 행(피그마 Frame 16·18) */
+.case-sales-mgmt-p06__kpi-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 24px 32px;
+  margin-top: 0;
+}
+
+.case-sales-mgmt-p06__kpi {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+}
+
+.case-sales-mgmt-p06__kpi-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: 32px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background-color: #eeeeee;
+  font-family: var(--font);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0;
+  color: #626262;
+  white-space: nowrap;
+}
+
+.case-sales-mgmt-p06__kpi-value {
+  font-family: var(--font);
+  font-size: 32px;
+  font-weight: 900;
+  line-height: 48px;
+  letter-spacing: 0;
+  color: #565656;
+}
+
+.case-sales-mgmt-p06 .case-en-main > .case-en-main-stack__figure,
+.case-sales-mgmt-p10 .case-en-main > .case-en-main-stack__figure {
+  margin-top: 56px;
+  margin-bottom: 0;
+}
+
+.case-sales-mgmt-p06 .case-en-main > .case-sales-mgmt-p06__kpi-row + .case-en-section-text {
+  margin-top: 24px;
+}
+
+@media (max-width: 720px) {
+  .case-sales-mgmt-p05__points,
+  .case-sales-mgmt-p07__points,
+  .case-sales-mgmt-p09__points {
+    flex-direction: column;
+  }
+
+  .case-sales-mgmt-p05__point,
+  .case-sales-mgmt-p07__pain,
+  .case-sales-mgmt-p09__solution {
+    width: 100%;
+  }
+}
+
+@media (max-width: 1040px) {
+  .case-meta--case-hero {
+    grid-template-columns: repeat(2, max-content);
+  }
+}
+
+@media (max-width: 720px) {
+  .case-meta--case-hero {
+    grid-template-columns: 1fr;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .case-meta--case-hero .case-meta__group {
+    min-width: 0;
+  }
+
+  .case-meta--case-hero .case-meta__label,
+  .case-meta--case-hero .case-meta__value-row {
+    white-space: normal;
+  }
+}
+
+/* ---------- 섹션 공통 타이포·EN 그리드 ---------- */
+
+/* EN 3열 본문 열 한글 아이브로(타이틀↔본문 사이) — 섹션10 동일 타이포 */
+.case-en-section-eyebrow {
+  margin: 0 0 8px;
+  font-family: var(--font);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 27px;
+  letter-spacing: 0;
+  color: #474747;
+}
+
+/* EN 라벨+타이틀 행 ↔ 비주얼·갤러리: 피그마 72px — section flex gap 대신 padding(data-reveal transform과 무관) */
+.case-en-content-inner {
+  padding-bottom: 72px;
+}
+
+/* 다음 섹션이 통 비주얼·풀블리드 등일 때 본문 래퍼 하단 72px 생략 */
+.case-en-content-inner.case-en-content-inner--flush-next {
+  padding-bottom: 0;
+}
+
+/* 비주얼 블록 래퍼 + .case-section__visual: 회색 박스 배경 제거 — 폭·밴드는 섹션별로 아래 추가 */
+.case-en-visual-inner .case-section__visual {
+  background: transparent;
+}
+
+/* 섹션11: 이미지 블록만 max 1776·가운데(회색 밴드는 .case-designsys__inner--visual.case-inner) */
+.case-designsys__inner.case-designsys__inner--visual .case-section__visual {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--max-content);
+  margin-inline: auto;
+}
+
+/* EN 3열 본문 열 우측 한글 H2 — 타이틀↔아이브로 24px(아이브로↔본문 8px는 __eyebrow margin) */
+.case-en-section-title {
+  margin: 0 0 24px;
+  font-family: var(--font);
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 48px;
+  letter-spacing: 0;
+  color: #323030;
+  word-break: keep-all;
+}
+
+/* EN 케이스 스터디 공용(청구서 등 — 섹션 루트·메타만 프로젝트 BEM, 마크업 블록은 공통 클래스) */
+.case-en-section-rule {
+  margin: 0 0 48px;
+  border: 0;
+  border-top: 1px solid #000000;
+}
+
+.case-en-section-rule--muted {
+  margin: 0 0 56px;
+  border-top-color: #d3d3d3;
+}
+
+.case-en-section-text {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 27px;
+  letter-spacing: 0;
+  color: #797979;
+}
+
+.case-en-section-text + .case-en-section-text {
+  margin-top: 16px;
+}
+
+.case-en-section-lead {
+  margin: 0 0 48px;
+  font-family: var(--font);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 27px;
+  letter-spacing: 0;
+  color: #797979;
+}
+
+.case-en-figure-band {
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 0;
+}
+
+.case-en-figure-band img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.case-en-figure-main {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  margin: 48px 0 0;
+  line-height: 0;
+}
+
+.case-en-figure-main img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.case-en-grid-media {
+  grid-column: 1 / -1;
+  width: 100%;
+  min-width: 0;
+}
+
+.case-en-main-stack__figure {
+  margin: 0 0 56px;
+  line-height: 0;
+}
+
+.case-en-main-stack__figure:last-child {
+  margin-bottom: 0;
+}
+
+.case-en-main-stack__figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* 손글씨 스티커(청구서 Discover the problem — 피그마 738:8640·Permanent Marker) */
+.case-handdraw {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-sizing: border-box;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 0 24px;
+  padding: 15px 23px;
+  border-radius: 24px;
+  background-color: #3b3b3b;
+  color: #ffffff;
+}
+
+.case-handdraw__icon {
+  flex-shrink: 0;
+  line-height: 0;
+}
+
+.case-handdraw__icon svg,
+.case-handdraw__icon img {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+.case-handdraw__text {
+  margin: 0;
+  font-family: "Permanent Marker", var(--font);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 27px;
+  letter-spacing: 0;
+}
+
+/* EN 3열 그리드: HTML에 case-en-label / case-en-main / case-en-label-en 병행 */
+.case-en-label {
+  min-width: 0;
+  grid-column: 1;
+}
+
+.case-en-label-en {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 33.4140625px;
+  letter-spacing: 0;
+  color: #000000;
+}
+
+@media (min-width: 961px) {
+  .case-en-label-en {
+    white-space: nowrap;
+    width: max-content;
+    max-width: none;
+  }
+
+  .case-en-label {
+    position: relative;
+    z-index: 1;
+    overflow: visible;
+  }
+}
+
+.case-en-main {
+  min-width: 0;
+  grid-column: 3;
+  /* 우측 53/1088 패딩은 case-body__main(히어로 메타)만 적용. 섹션 타이틀은 __inner 페이지 패딩만 두고 중복 인셋 제거 → 시안 대비 가로 폭 확보 */
+}
+
+.case-design-dir__rule,
+.case-improve__rule,
+.case-detail-design__rule,
+.case-section08__rule,
+.case-section09__rule,
+.case-designsys__rule {
+  margin: 0 0 48px;
+  border: 0;
+  border-top: 1px solid #000000;
+}
+
+.case-design-dir__text,
+.case-improve__text,
+.case-detail-design__text,
+.case-section08__text,
+.case-section09__text,
+.case-designsys__text {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 27px;
+  letter-spacing: 0;
+  color: #797979;
+}
+
+/* ---------- 비주얼 셸·오퍼레이션·폰 목업 ---------- */
+
+/* 섹션1: 서베이 비주얼 (1776×720, #fafafa, radius 48)
+   상단 여백: --case-study-section-gap(히어로·본문과 동일) */
+.case-section {
+  margin-top: var(--case-study-section-gap);
+}
+
+.case-section__visual {
+  position: relative;
+  border-radius: 48px;
+  background: #fafafa;
+  overflow: hidden;
+}
+
+/* Desk Research — 이미지 좌상단과 겹침(플로우 차지 없음). 아래 case-research 블록 레이아웃은 그대로 */
+.case-section__title {
+  position: absolute;
+  top: clamp(32px, 5vw, 56px);
+  left: clamp(20px, 4vw, 56px);
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  max-width: calc(100% - 2 * clamp(20px, 4vw, 56px));
+  font-family: var(--font);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 21.5px;
+  letter-spacing: 0;
+  color: #000000;
+}
+
+.case-section__media {
+  line-height: 0;
+}
+
+.case-section__media img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Operation Process: 피그마 Frame 1776×884 내 section03-visual01 1636×679, 인셋 상149·좌우70·하56 (비율로 환산) */
+.case-section--operation .case-section__visual {
+  box-sizing: border-box;
+  padding-top: calc(100% * 149 / 1776);
+  padding-right: calc(100% * 70 / 1776);
+  padding-bottom: calc(100% * 56 / 1776);
+  padding-left: calc(100% * 70 / 1776);
+}
+
+.case-section--operation .case-section__title {
+  left: calc(100% * 70 / 1776);
+  max-width: calc(100% - 2 * (100% * 70 / 1776));
+}
+
+.case-section--operation .case-section__media img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Phone mockup — 피그마 Screen01(Frame 395×832): bezel #3b3b3b r40, padding 10, 화면 375×812 r32, 스크롤 레이어+크롬 오버레이 */
+.phone-mockup {
+  width: min(395px, 100%);
+  margin: 0;
+}
+
+.phone-mockup__bezel {
+  box-sizing: border-box;
+  padding: 10px;
+  border-radius: 40px;
+  background: #3b3b3b;
+  /* 피그마 effects 미수신 시 지정값: offset-y 72, blur 160, #000 15% */
+  box-shadow: 0 72px 160px rgba(0, 0, 0, 0.15);
+}
+
+.phone-mockup__screen {
+  position: relative;
+  overflow: hidden;
+  border-radius: 32px;
+  background: #fff;
+  aspect-ratio: 375 / 812;
+}
+
+.phone-mockup__body {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.phone-mockup__scroll {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.phone-mockup__chrome {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+/* ---------- Desk research·마키·설문 ---------- */
+
+/* 데스크 리서치: #fafafa 풀블리드, 단일 열 + 가로 스크롤 카드
+   섹션01 비주얼 하단 ~ 본 섹션 상단 = --case-study-section-gap */
+.case-research {
+  margin-top: var(--case-study-section-gap);
+  padding: clamp(40px, 8vw, 80px) 0;
+  background: #fafafa;
+  /* 마키는 __viewport에서만 가로 overflow 자름(섹션 clip 시 카드 그림자 잘림) */
+}
+
+/* 카피: 1776 중앙 정렬 + 안쪽 120px 를 겹치지 않게 — 뷰포트 풀폭 위에 padding 한 번만 */
+.case-research__inner,
+.case-section10__inner {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+  padding-inline: 120px;
+}
+
+.case-research__inner > *,
+.case-section10__inner > * {
+  max-width: min(1088px, 100%);
+}
+
+@media (max-width: 960px) {
+  .case-research__inner,
+  .case-section10__inner {
+    padding-inline: min(120px, 5vw);
+  }
+}
+
+.case-research__eyebrow {
+  margin: 0 0 16px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 27px;
+  letter-spacing: 0;
+  color: #474747;
+}
+
+.case-research__text {
+  margin: 0 0 32px;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 27px;
+  color: #797979;
+}
+
+/* 데스크 리서치: 설문 카드 마크업 + 풀폭 무한 마키(우→좌) */
+.case-research-marquee {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-top: 0;
+  padding: 0;
+}
+
+.case-research-marquee__viewport {
+  /* 그림자(blur~40px)가 overflow 경계에서 잘리지 않도록 좌우·하단 패딩만 */
+  padding: 0 min(48px, 5vw) 48px;
+  overflow-x: hidden;
+  overflow-y: visible;
+}
+
+.case-research-marquee__track {
+  display: flex;
+  width: max-content;
+  align-items: flex-start;
+  gap: 16px;
+  will-change: transform;
+  animation: case-research-marquee-rtl 32s linear infinite;
+}
+
+.case-research-marquee__group {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.case-research-marquee__item {
+  flex: 0 0 auto;
+}
+
+/* 피그마 section02-visual01–06: 카드 424·패딩 32·radius 32, 질문 18/27, 행 #f4f4f4·16, 바 72×8 */
+.case-survey-card {
+  box-sizing: border-box;
+  width: 424px;
+  max-width: min(424px, calc(100vw - 48px));
+  margin: 0;
+  padding: 32px;
+  border-radius: 32px;
+  background: #fff;
+  box-shadow:
+    0 4px 6px rgba(15, 23, 42, 0.03),
+    0 12px 40px rgba(15, 23, 42, 0.08);
+}
+
+.case-survey-card__title {
+  margin: 0 0 12px;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 27px;
+  letter-spacing: 0;
+  text-align: left;
+  color: #383838;
+}
+
+.case-survey-card__rows {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.case-survey-card__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 40px;
+  padding: 8px 16px;
+  border-radius: 16px;
+  background: #f4f4f4;
+  box-sizing: border-box;
+}
+
+.case-survey-card__label {
+  flex: 1;
+  min-width: 0;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: #383838;
+}
+
+.case-survey-card__stat {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 16px;
+}
+
+.case-survey-card__track {
+  width: 72px;
+  height: 8px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #e5efff;
+}
+
+.case-survey-card__fill {
+  display: block;
+  height: 100%;
+  border-radius: 8px;
+  background: #3873f3;
+  width: var(--survey-p, 0%);
+  max-width: 100%;
+}
+
+.case-survey-card__pct {
+  width: 4rem;
+  flex-shrink: 0;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  text-align: right;
+  color: #383838;
+}
+
+@keyframes case-research-marquee-rtl {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case-research-marquee__track {
+    animation: none;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .case-section10-marquee__track--rtl,
+  .case-section10-marquee__track--ltr {
+    animation: none;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* ---------- Service design direction(섹션04) ---------- */
+
+/* 섹션04: Service Design Direction — 본문(case-body)과 동일 1776 그리드(30|70), 피그마 타이포·간격 */
+.case-design-dir {
+  margin-top: var(--case-study-section-gap);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* ---------- Key functions(섹션05) ---------- */
+
+/* 섹션05: 합성 PNG 단일 — 전역 .case-section__visual 배경(#fafafa) 미적용 */
+.case-key-fn {
+  margin-top: var(--case-study-section-gap);
+}
+
+.case-key-fn .case-section__visual {
+  background: transparent;
+}
+
+/* ---------- 개선·갤러리(섹션06) ---------- */
+
+/* 섹션06: 본문 EN 라벨 행(49|71|280 · 30|70) + 합성 비주얼(피그마 section06, max 1920) */
+.case-improve {
+  margin-top: var(--case-study-section-gap);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.case-improve__gallery {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  box-sizing: border-box;
+  /* 피그마 section06: 프레임 높이 913 — 밴드 내부 상·하 패딩 24px */
+  padding: 24px 0;
+  background: #fafafa;
+  overflow: hidden;
+}
+
+.case-improve__gallery-scroll {
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 0 var(--space-page);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* 피그마 section06 합성 PNG — 뷰포트 너비에 맞춰 밴드 높이 913/1920로 제한 후 초과분 클립 */
+@media (min-width: 961px) {
+  .case-improve__gallery {
+    max-height: min(913px, calc(100vw * 913 / 1920));
+  }
+}
+
+/* 피그마 section06 프레임 합성 PNG(3350×2304) — 1920 콘텐츠 폭에 맞춰 가변 */
+.case-improve__figure {
+  margin: 0;
+  line-height: 0;
+  overflow: hidden;
+}
+
+.case-improve__figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ---------- 상세 기능 설계(섹션07) ---------- */
+
+/* Detailed Functional Design — 본문 + 피그마 section07 합성 비주얼(맥스 폭 --max-content 1776) */
+.case-detail-design {
+  margin-top: var(--case-study-section-gap);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* ---------- 섹션08 ---------- */
+
+/* 섹션08: AI 간편 입력(피그마 타이틀 블록 — case-detail-design과 동일 그리드·타이포) */
+.case-section08 {
+  margin-top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* ---------- 섹션09 ---------- */
+
+/* 섹션09: AI 소비 리포트(피그마 타이틀 블록 — 섹션08과 동일 패턴) */
+.case-section09 {
+  margin-top: var(--case-study-section-gap);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* ---------- 디자인 시스템 ---------- */
+
+/* 디자인 시스템 — 피그마 729:346~349, 합성 비주얼(section11-visual01) */
+.case-designsys {
+  margin-top: var(--case-study-section-gap);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* column flex + .case-inner margin:auto 는 폭이 콘텐츠만큼만 잡히므로, 타이틀 inner만 폭·가운데 정렬 명시 */
+.case-designsys > .case-inner:not(.case-designsys__inner--visual) {
+  align-self: center;
+  box-sizing: border-box;
+  width: min(100%, var(--max-content));
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* 비주얼 밴드: 가로 100%·#fafafa — 내부 이미지 블록만 max 1776(아래 .case-section__visual) */
+.case-designsys > .case-designsys__inner--visual.case-inner {
+  align-self: stretch;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+  padding: 72px 0;
+  background: #fafafa;
+}
+
+/* ---------- 랠리즈 디자인 시스템 섹션01: 뱃지·하이라이트·리드 + Key purpose 카드 PNG 스택 ---------- */
+
+.case-rallyzds-p01 .case-en-main {
+  letter-spacing: -0.5px;
+}
+
+.case-rallyzds-p01__intro {
+  margin: 0;
+  overflow: visible;
+}
+
+.case-rallyzds-p01__lead {
+  margin: 0;
+  max-width: 1088px;
+  padding-top: 0;
+  font-family: var(--font);
+  font-size: clamp(22px, 2.5vw, 30px);
+  font-weight: 300;
+  line-height: 48px;
+  color: #3e3e3e;
+  word-break: keep-all;
+  overflow: visible;
+}
+
+/* 하이라이트 덩어리 위에 Point 뱃지 겹침(피그마 레이어 순서) */
+.case-rallyzds-p01__hl-cluster {
+  position: relative;
+  display: inline-block;
+  vertical-align: baseline;
+}
+
+/* 피그마: 본문 x=15038·하이라이트 x=15038 / Point01 x=14999(−39px), 하이라이트2 x=15637·Point02 x=15607(−30px), y≈1792·하이라이트 상단 1816 */
+.case-rallyzds-p01__hl-cluster .case-rallyzds-p01__badge {
+  position: absolute;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0 8px;
+  min-height: 24px;
+  border-radius: 8px;
+  background: #11c623;
+  font-family: var(--font);
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 24px;
+  letter-spacing: 0;
+  color: #ffffff;
+  white-space: nowrap;
+  box-sizing: border-box;
+  box-shadow:
+    0 2px 6px rgba(17, 198, 35, 0.32),
+    0 1px 3px rgba(0, 0, 0, 0.14);
+  pointer-events: none;
+}
+
+.case-rallyzds-p01__hl-cluster--01 .case-rallyzds-p01__badge {
+  left: -39px;
+  top: -10px;
+}
+
+.case-rallyzds-p01__hl-cluster--02 .case-rallyzds-p01__badge {
+  left: -30px;
+  top: -10px;
+}
+
+.case-rallyzds-p01__hl {
+  background: #e3ffe6;
+  box-decoration-break: clone;
+  padding: 2px 0;
+  font-weight: 700;
+}
+
+.case-rallyzds-p01__visual {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 48px;
+  max-width: 1088px;
+}
+
+.case-rallyzds-p01__figure {
+  margin: 0;
+  line-height: 0;
+}
+
+.case-rallyzds-p01__figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 720px) {
+  .case-rallyzds-p01__lead {
+    line-height: 1.55;
+  }
+
+  .case-rallyzds-p02__lead {
+    line-height: 1.55;
+  }
+}
+
+/* ---------- 랠리즈 디자인 시스템 섹션02: UI·UX 뱃지·하이라이트·원칙 카드 비주얼(피그마 740:17087~) ---------- */
+
+.case-rallyzds-p02 .case-en-main {
+  letter-spacing: -0.5px;
+}
+
+.case-rallyzds-p02__intro {
+  margin: 0;
+  overflow: visible;
+}
+
+.case-rallyzds-p02__lead {
+  margin: 0;
+  max-width: 1088px;
+  padding-top: 0;
+  font-family: var(--font);
+  font-size: clamp(22px, 2.5vw, 30px);
+  font-weight: 300;
+  line-height: 48px;
+  color: #3e3e3e;
+  word-break: keep-all;
+  overflow: visible;
+}
+
+.case-rallyzds-p02__hl-cluster {
+  position: relative;
+  display: inline-block;
+  vertical-align: baseline;
+}
+
+.case-rallyzds-p02__hl-cluster .case-rallyzds-p02__badge {
+  position: absolute;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0 8px;
+  min-height: 24px;
+  border-radius: 8px;
+  background: #11c623;
+  font-family: var(--font);
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 24px;
+  letter-spacing: 0;
+  color: #ffffff;
+  white-space: nowrap;
+  box-sizing: border-box;
+  box-shadow:
+    0 2px 6px rgba(17, 198, 35, 0.32),
+    0 1px 3px rgba(0, 0, 0, 0.14);
+  pointer-events: none;
+}
+
+/* 피그마: UI 배지 740:17104·우측 하이라이트 근처 */
+.case-rallyzds-p02__hl-cluster--ui .case-rallyzds-p02__badge {
+  left: -16px;
+  top: -10px;
+}
+
+/* 피그마: UX 배지 740:17106·두 번째 행 좌측 */
+.case-rallyzds-p02__hl-cluster--ux .case-rallyzds-p02__badge {
+  left: -22px;
+  top: -10px;
+}
+
+.case-rallyzds-p02__hl {
+  background: #e3ffe6;
+  box-decoration-break: clone;
+  padding: 2px 0;
+  font-weight: 300;
+}
+
+.case-rallyzds-p02__hl strong {
+  font-weight: 700;
+}
+
+/* strong 구간 없이 블록 전체를 리드 대비 강조(세 번째 하이라이트) */
+.case-rallyzds-p02__hl--emphasis {
+  font-weight: 700;
+}
+
+/* 피그마: 카피 하단 ↔ section02-visual01 상단 72px */
+.case-rallyzds-p02 > .case-fullbleed__inner {
+  margin-top: 72px;
+}
+
+.case-rallyzds-p03 .case-en-main {
+  letter-spacing: -0.5px;
+}
+
+/* 카피 영역 ↔ 풀블리드 비주얼: 섹션02와 동일 72px 간격으로 통일 */
+.case-rallyzds-p03 > .case-fullbleed__inner {
+  margin-top: 72px;
+}
+
+/* 피그마 740:18550 characters 줄바꿈 U+2028 */
+.case-rallyzds-p03__figma-copy {
+  white-space: pre-line;
+}
+
+/* ---------- 챌린지·카테고리 마키(섹션10) ---------- */
+
+/* 섹션10: 챌린지 텍스트 — case-research(섹션02)와 동일 밴드·단일 열 */
+.case-section10 {
+  margin-top: var(--case-study-section-gap);
+  padding: clamp(40px, 8vw, 80px) 0;
+  background: #fafafa;
+}
+
+.case-section10__title {
+  margin: 0 0 24px;
+  font-family: var(--font);
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 48px;
+  letter-spacing: 0;
+  color: #323030;
+}
+
+.case-section10__text {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 27px;
+  color: #797979;
+}
+
+/* 텍스트 블록 아래: 마키 + 휴대폰 PNG 겹침(표시 박스 1400×1280, 피그마 section10-visual10) */
+.case-section10__overlap {
+  position: relative;
+  margin-top: clamp(44px, 2.65vw, 52px);
+  padding-top: 0;
+}
+
+.case-section10__phone-layer {
+  position: absolute;
+  z-index: 2;
+  top: clamp(-380px, -19.5vw, -40px);
+  left: 50%;
+  transform: translateX(-50%);
+  box-sizing: border-box;
+  width: min(1400px, 92vw);
+  aspect-ratio: 1400 / 1280;
+  pointer-events: none;
+  line-height: 0;
+}
+
+.case-section10__phone-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+}
+
+/* 섹션10 카테고리 마키(섹션02와 동일: 풀폭·그룹 복제·translate 루프) */
+.case-section10-marquees {
+  position: relative;
+  z-index: 1;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-bottom: clamp(24px, 4vw, 48px);
+}
+
+.case-section10-marquee__viewport {
+  padding: 0 min(48px, 5vw);
+  overflow-x: hidden;
+  overflow-y: visible;
+}
+
+.case-section10-marquee__track {
+  display: flex;
+  width: max-content;
+  align-items: flex-start;
+  gap: 16px;
+  will-change: transform;
+}
+
+.case-section10-marquee__track--rtl {
+  animation: case-research-marquee-rtl 32s linear infinite;
+}
+
+.case-section10-marquee__track--ltr {
+  animation: case-section10-marquee-ltr 32s linear infinite;
+}
+
+.case-section10-marquee__group {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.case-section10-marquee__item {
+  flex: 0 0 auto;
+}
+
+@keyframes case-section10-marquee-ltr {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* 피그마 section10: 카테고리 카드 240·radius 56·Frame62 라벨 좌상·Frame53 이모지 64 하단 우측(160×96 영역 기준) */
+.case-category-card {
+  box-sizing: border-box;
+  width: 240px;
+  height: 240px;
+  margin: 0;
+  padding: 34px 40px 32px;
+  border-radius: 56px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.case-category-card__label {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 36px;
+  letter-spacing: 0;
+  color: #222222;
+}
+
+.case-category-card__emoji {
+  margin: 0;
+  align-self: flex-end;
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 96px;
+  text-align: right;
+}
+
+.case-category-card--emoji-lg .case-category-card__emoji {
+  font-size: 72px;
+  line-height: 108px;
+}
+
+@media (max-width: 960px) {
+  .case-body__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .case-body__gutter-left {
+    display: none;
+  }
+
+  .case-body__main {
+    padding-right: 0;
+  }
+
+  .case-en-layout {
+    grid-template-columns: 1fr;
+    gap: clamp(16px, 4vw, 24px);
+  }
+
+  .case-en-label,
+  .case-en-main {
+    grid-column: auto;
+  }
+
+  .case-hero__frame {
+    border-radius: clamp(24px, 6vw, 48px);
+  }
+
+  .case-section__visual {
+    border-radius: clamp(24px, 6vw, 48px);
+  }
+
+  .case-survey-card {
+    padding: clamp(20px, 5vw, 32px);
+    border-radius: clamp(24px, 5vw, 32px);
+  }
+
+  .phone-mockup__bezel {
+    border-radius: clamp(28px, 10vw, 40px);
+  }
+
+  .phone-mockup__screen {
+    border-radius: clamp(22px, 8vw, 32px);
+  }
+
+}

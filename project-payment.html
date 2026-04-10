@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>불편했던 청구서 관리, 맥락있는 관리를 위한 사용성 개선 — SONG HYO SUB</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap">
+  <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="site-logo" href="index.html">SONG HYO SUB</a>
+      <nav class="site-nav" aria-label="주요 메뉴">
+        <a href="index.html">HOME</a>
+        <a href="project.html">PROJECT</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="case-study case-study--payment">
+    <!-- 청구서 섹션00: 메인 비주얼 + 히어로 메타(셀프라이브 섹션00과 동일 토큰) -->
+    <div class="case-hero" data-reveal>
+      <div class="case-hero__frame">
+        <img
+          src="assets/image/payment/section00-visual01.png?v=1"
+          width="1776"
+          height="880"
+          alt="청구서 관리 서비스 사용성 개선: 프로젝트 메인 비주얼"
+          decoding="async"
+          fetchpriority="high">
+      </div>
+    </div>
+
+    <div class="case-body" data-reveal>
+      <div class="case-body__inner case-inner">
+        <div class="case-body__layout">
+          <div class="case-body__gutter-left" aria-hidden="true"></div>
+          <div class="case-body__main">
+            <h1 class="case-body__title case-body__title--case-hero case-body__title--case-hero-tight">불편했던 청구서 관리,<br>맥락있는 관리를 위한 사용성 개선</h1>
+            <p class="case-body__lead case-body__lead--case-hero">
+              Covid-19 사태로 정부의 거리두기 정책과 학생들의 감염 우려로 인하여 비대면을 선호하는 경향이 있었으며<br>
+              시대적으로 비대면 서비스에 익숙해져 가는 상황이었습니다. 또한 주요 학군지에 대한 시장 진출이 요구되었습니다.<br><br>
+              그에 맞물려 제품의 초기 당시 공급자들이 서비스에 가장 큰 메리트를 느낀 부분이 결제 서비스였습니다.<br>
+              이를 고도화 시켜야 더 많은 공급자들을 유입시킬 수 있는 사업단의 결정에 의하여 프로젝트가 진행되었습니다.
+            </p>
+
+            <dl class="case-meta case-meta--case-hero">
+              <div class="case-meta__group">
+                <dt class="case-meta__label">수행 기간</dt>
+                <dd class="case-meta__value-row"><span>2022.09 - 2022.12</span></dd>
+              </div>
+              <div class="case-meta__group">
+                <dt class="case-meta__label">참여 인원</dt>
+                <dd class="case-meta__value-row"><span>PO 1명, PD 1명, F/E 개발자 1명, B/E 개발자 1명</span></dd>
+              </div>
+              <div class="case-meta__group">
+                <dt class="case-meta__label">담당 역할</dt>
+                <dd class="case-meta__value-row"><span>UX/UI 설계 고도화, UX/UI 디자인</span></dd>
+              </div>
+              <div class="case-meta__group">
+                <dt class="case-meta__label">참여도</dt>
+                <dd class="case-meta__value-row"><span>디자인 참여도 100%</span></dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 청구서 섹션01: Discover the Problem — 피그마 738:8639~753:13577 -->
+    <section class="case-payment-p01 case-section-mt-after-hero" data-reveal aria-labelledby="payment-p01-h1">
+      <div class="case-inner case-en-content-inner case-en-content-inner--flush-next">
+        <div class="case-en-layout">
+          <div class="case-en-label">
+            <p class="case-en-label-en">Discover the Problem</p>
+          </div>
+          <div class="case-en-main">
+            <hr class="case-en-section-rule" aria-hidden="true">
+            <h2 id="payment-p01-h1" class="case-en-section-title">
+              미약한 기능과 불편한 사용성, 사용패턴을 담지 못한 청구서 서비스
+            </h2>
+            <p class="case-handdraw">
+              <span class="case-handdraw__icon" aria-hidden="true">
+                <img src="assets/image/common/icon/check.svg" width="24" height="24" alt="">
+              </span>
+              <span class="case-handdraw__text">Discover the problem (Leading. Product owner)</span>
+            </p>
+            <p class="case-en-section-lead">
+              실제 학원에서 청구서 발행/관리 하는 방식을 포용할 수 없는 것과<br>
+              사용성이 미약한 것이 페인포인트라는 가설이 설정되었습니다.
+            </p>
+          </div>
+          <div class="case-en-grid-media">
+            <figure class="case-en-main-stack__figure">
+              <img
+                src="assets/image/payment/section01-visual01.png?v=1"
+                width="1776"
+                height="480"
+                alt="비대면 수납관리 맥락의 기존 청구서 관리 서비스 As-is 화면과 가설 정의 요약"
+                decoding="async"
+                loading="lazy">
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 청구서 섹션02: 통 PNG(section02-visual01) — 가설·As-is·이슈 정리 -->
+    <section class="case-payment-p02 case-section-mt-stack" data-reveal aria-label="청구서 관리 가설 정의와 As-is 이슈 정리">
+      <div class="case-fullbleed__inner">
+        <figure class="case-fullbleed__figure">
+          <img
+            src="assets/image/payment/section02-visual01.png?v=1"
+            width="3840"
+            height="2134"
+            alt="청구서 관리 가설 정의, 비대면 수납 As-is 모바일 목업, 구조·기능·속도 이슈 및 개선 방향"
+            decoding="async"
+            loading="lazy">
+        </figure>
+      </div>
+    </section>
+
+    <!-- 청구서 섹션03: UX/UI Improvement Direction — 피그마 738:8660~753:13578 -->
+    <section class="case-payment-p03 case-section-mt-stack" data-reveal aria-labelledby="payment-p03-heading">
+      <div class="case-inner case-en-content-inner">
+        <div class="case-en-layout">
+          <div class="case-en-label">
+            <p class="case-en-label-en">UX/UI Improvement Direction</p>
+          </div>
+          <div class="case-en-main">
+            <hr class="case-en-section-rule" aria-hidden="true">
+            <h2 id="payment-p03-heading" class="case-en-section-title">
+              구조적인 개선과 UX 정책을 기반으로 개선 방향 도출
+            </h2>
+            <p class="case-handdraw">
+              <span class="case-handdraw__icon" aria-hidden="true">
+                <img src="assets/image/common/icon/check.svg" width="24" height="24" alt="">
+              </span>
+              <span class="case-handdraw__text">UX/UI Solution(Leading. Product designer)</span>
+            </p>
+            <p class="case-en-section-text">
+              비효율적인 청구서 서비스를 개선하기 위해<br>
+              UX 정책을 준수하여 일관된 패턴과 균일한 UI가 도출 되도록 방향성을 잡았습니다.
+            </p>
+          </div>
+        </div>
+      </div>
+      <figure class="case-en-figure-band case-inner">
+        <img
+          src="assets/image/payment/section03-visual01.png?v=1"
+          width="3552"
+          height="1232"
+          alt="UX/UI 개선 방향 01~03: 조회 및 생성 UX, 과다 정보 구성, 액션 피드백 부재에 대한 카드형 설명"
+          decoding="async"
+          loading="lazy">
+      </figure>
+    </section>
+
+    <!-- 청구서 섹션04: 통 PNG(section04-visual01) — As-is·To-be 비교 -->
+    <section class="case-payment-p04 case-section-mt-stack" data-reveal aria-label="청구서 관리 As-is와 To-be 화면 비교">
+      <div class="case-fullbleed__inner">
+        <figure class="case-fullbleed__figure">
+          <img
+            src="assets/image/payment/section04-visual01.png?v=3"
+            width="3840"
+            height="2160"
+            alt="비대면 수납 청구서 관리 As-is 두 화면과 구조·정책 반영 To-be 두 화면 비교. 개선 콜아웃: 하위 개체 기준 로딩, 다수 청구서 생성, 어코디언 목록, 액션 피드백, 가변 영역 화면 전환, 직관적 데이터 편집"
+            decoding="async"
+            loading="lazy">
+        </figure>
+      </div>
+    </section>
+
+    <!-- 청구서 섹션05: Project Results — 카피·차트 PNG 모두 EN 우측(본문) 열, 피그마 738:8895~753:13580 -->
+    <section class="case-payment-p05 case-section-mt-stack" data-reveal aria-labelledby="payment-p05-heading">
+      <div class="case-inner case-en-content-inner">
+        <div class="case-en-layout">
+          <div class="case-en-label">
+            <p class="case-en-label-en">Project Results</p>
+          </div>
+          <div class="case-en-main">
+            <hr class="case-en-section-rule" aria-hidden="true">
+            <h2 id="payment-p05-heading" class="case-en-section-title">
+              청구서 관리 서비스 개선 후 관련 지표 성과 추이
+            </h2>
+            <p class="case-en-section-eyebrow">프로젝트 회고</p>
+            <p class="case-en-section-text">
+              청구서 서비스는 랠리즈에서 공급자들이 주로 사용하는 서비스 중 하나입니다.<br>
+              공급자가 유입되어야 비즈니스가 성장하는 서비스 구조상 필수적으로 고도화를 진행해야 했습니다.
+            </p>
+            <p class="case-en-section-text">
+              해당 지표는 UX/UI 개선뿐만 아니라 매달 수납율 촉진 CRM 활동, VOC 대응<br>
+              그리고 전사차원에서 지속적인 서비스 디벨롭이 있었기 때문에 이와 같은 성과들을 얻을 수 있었습니다.
+            </p>
+            <figure class="case-en-figure-main">
+              <img
+                src="assets/image/payment/section05-visual01.png?v=1"
+                width="2176"
+                height="900"
+                alt="누적 간편 결제액과 누적 간편 결제건 수: 2022년 12월 대비 2023년 12월까지 증가 추이를 보여 주는 라인·막대 차트"
+                decoding="async"
+                loading="lazy">
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-chrome-footer">
+    <nav class="project-pager" aria-label="Project navigation" data-reveal>
+      <a class="project-pager__btn project-pager__btn--prev" href="project-selflive.html">
+        <span class="project-pager__icon" aria-hidden="true">
+          <img src="assets/image/common/icon/arrow-left.png" width="48" height="48" alt="" decoding="async" loading="lazy">
+        </span>
+        <span class="project-pager__label">Previous Project</span>
+      </a>
+      <a class="project-pager__btn project-pager__btn--next" href="project-liveclass.html">
+        <span class="project-pager__label">Next Project</span>
+        <span class="project-pager__icon" aria-hidden="true">
+          <img src="assets/image/common/icon/arrow-right.png" width="48" height="48" alt="" decoding="async" loading="lazy">
+        </span>
+      </a>
+    </nav>
+    <section class="closing" data-reveal>
+      <div class="closing__inner">
+        <p class="closing__line">틀에 갇혀 생각하는 것 보다<br>사소한 것에도 배움이 있다고 믿습니다.</p>
+        <p class="closing__line">디테일이 모여 제품의 완성도를<br>결정한다고 생각합니다.</p>
+      </div>
+    </section>
+    <div class="site-footer">
+      <div class="site-footer__inner">
+        <p class="site-footer__copy">© SONG HYO SUB</p>
+        <div class="site-footer__contact">
+          <a href="mailto:sshs9@naver.com">sshs9@naver.com</a>
+          <a href="tel:010-7456-5658">010·7456·5658</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
