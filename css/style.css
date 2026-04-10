@@ -2327,6 +2327,15 @@ main.project-page + .site-chrome-footer .closing {
   align-items: stretch;
 }
 
+.case-design-dir > .case-design-dir__inner.case-inner,
+.case-improve > .case-improve__inner.case-inner {
+  align-self: center;
+  box-sizing: border-box;
+  width: min(100%, var(--max-content));
+  margin-left: 0;
+  margin-right: 0;
+}
+
 .case-design-dir__visual.case-study-visual-band {
   background-color: #fafafa;
 }
@@ -2434,6 +2443,7 @@ main.project-page + .site-chrome-footer .closing {
   font-size: clamp(22px, 2.5vw, 30px);
   font-weight: 300;
   line-height: 48px;
+  letter-spacing: -1px;
   color: #3e3e3e;
   word-break: keep-all;
   overflow: visible;
