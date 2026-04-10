@@ -47,6 +47,39 @@
   }
 
   var revealObserver = null;
+  var revealGeometryRaf = false;
+
+  /** Lenis·일부 윈도우 크로미움에서 IO만으로 is-visible이 안 붙을 때 보강 */
+  function syncRevealByGeometry() {
+    if (reduceMotion) return;
+    var h = window.innerHeight || document.documentElement.clientHeight;
+    document.querySelectorAll("[data-reveal]:not(.is-visible)").forEach(function (el) {
+      var r = el.getBoundingClientRect();
+      if (r.bottom > 0 && r.top < h) {
+        el.classList.add("is-visible");
+        if (revealObserver) {
+          try {
+            revealObserver.unobserve(el);
+          } catch (err) {
+            /* not observed */
+          }
+        }
+      }
+    });
+  }
+
+  function scheduleRevealGeometrySync() {
+    if (reduceMotion) return;
+    if (!document.querySelector("[data-reveal]:not(.is-visible)")) return;
+    if (revealGeometryRaf) return;
+    revealGeometryRaf = true;
+    requestAnimationFrame(function () {
+      revealGeometryRaf = false;
+      syncRevealByGeometry();
+    });
+  }
+
+  window.portfolioScheduleRevealSync = scheduleRevealGeometrySync;
 
   function initReveal() {
     if (reduceMotion) {
@@ -83,18 +116,29 @@
         el.classList.add("is-visible");
       });
     }
+
+    scheduleRevealGeometrySync();
   }
 
   initReveal();
 
+  window.addEventListener("scroll", scheduleRevealGeometrySync, { passive: true });
+  window.addEventListener("resize", scheduleRevealGeometrySync);
+
   /* 모바일 게이트 해제 후 main이 다시 그려질 때 재관찰(이전에 display:none이면 is-visible이 영구 미부착) */
-  window.addEventListener("portfolio:reveal-refresh", initReveal);
+  window.addEventListener("portfolio:reveal-refresh", function () {
+    initReveal();
+    scheduleRevealGeometrySync();
+  });
 
   /* 폰트·이미지 이후 레이아웃 보정 후 한 번 더(첫 화면 카드 누락 완화) */
   window.addEventListener(
     "load",
     function () {
-      requestAnimationFrame(initReveal);
+      requestAnimationFrame(function () {
+        initReveal();
+        scheduleRevealGeometrySync();
+      });
     },
     { once: true }
   );
@@ -302,6 +346,7 @@
       return;
     }
     lenis.raf(t);
+    if (window.portfolioScheduleRevealSync) window.portfolioScheduleRevealSync();
     rafId = requestAnimationFrame(loop);
   }
 
@@ -315,6 +360,15 @@
       smoothWheel: true,
       syncTouch: true
     });
+    try {
+      if (typeof lenis.on === "function") {
+        lenis.on("scroll", function () {
+          if (window.portfolioScheduleRevealSync) window.portfolioScheduleRevealSync();
+        });
+      }
+    } catch (err) {
+      /* Lenis rAF 루프에서만 동기화 */
+    }
     rafId = requestAnimationFrame(loop);
   }
 
