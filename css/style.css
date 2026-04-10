@@ -617,7 +617,7 @@ a {
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 72px;
-  padding: 0 var(--space-page);
+  padding: 0;
 }
 
 .project-pager__btn {
@@ -703,13 +703,13 @@ a {
   }
 }
 
-/* ===== Closing(피그마 Frame 14: 상·하 39px — 가로는 project-pager·--space-page와 동일 인셋) ===== */
+/* ===== Closing(피그마 Frame 14: 상·하 39px — 가로 인셋은 .site-chrome-footer 한 번만) ===== */
 .closing {
   box-sizing: border-box;
   max-width: var(--max-content);
   margin-left: auto;
   margin-right: auto;
-  padding: 39px var(--space-page);
+  padding: 39px 0;
 }
 
 .closing__inner {
@@ -730,8 +730,12 @@ a {
 }
 
 /* ===== Footer(클로징 카피 + 연락처 한 덩어리) ===== */
+/* 가로 --space-page: 여기 한 번만(예전: pager·closing·site-footer__inner 각각 중복) */
 .site-chrome-footer {
+  box-sizing: border-box;
   margin-top: clamp(2rem, 5vw, 4rem);
+  padding-left: var(--space-page);
+  padding-right: var(--space-page);
 }
 
 .site-footer {
@@ -746,7 +750,7 @@ a {
   max-width: var(--max-content);
   margin-left: auto;
   margin-right: auto;
-  padding: 0 var(--space-page);
+  padding: 0;
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
@@ -1175,6 +1179,40 @@ main.project-page + .site-chrome-footer .closing {
 /* 좌우: 홈 히어로·프로젝트와 동일 — :root --space-page(800px~ 4.5rem 고정) */
 .case-study {
   padding: clamp(24px, 4vw, 48px) var(--space-page) 0;
+}
+
+/* A·Wallet 예외: 섹션02·06·10·11 — main 좌우 인셋 없이 뷰포트 폭(밴드·이미지) */
+.case-study--awallet .case-research,
+.case-study--awallet .case-section10 {
+  margin-left: calc(-1 * var(--space-page));
+  margin-right: calc(-1 * var(--space-page));
+  width: calc(100% + 2 * var(--space-page));
+  max-width: none;
+  box-sizing: border-box;
+}
+
+.case-study--awallet .case-research-marquee__viewport,
+.case-study--awallet .case-section10-marquee__viewport {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.case-study--awallet .case-improve__gallery-scroll {
+  max-width: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.case-study--awallet .case-designsys > .case-designsys__inner--visual.case-inner {
+  margin-left: calc(-1 * var(--space-page));
+  margin-right: calc(-1 * var(--space-page));
+  width: calc(100% + 2 * var(--space-page));
+  max-width: none;
+  box-sizing: border-box;
+}
+
+.case-study--awallet .case-designsys__inner.case-designsys__inner--visual .case-section__visual {
+  max-width: none;
 }
 
 .case-hero {
