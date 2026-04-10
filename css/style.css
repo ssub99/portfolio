@@ -31,10 +31,10 @@
   /* 피그마: DINPro Bold. 로컬/라이선스 폰트 우선 → 없으면 웹폰트 Barlow Condensed(비슷한 산세리프) */
   --font-logo: "DIN Pro", "DINPro", DINPro, "Barlow Condensed", "Arial Narrow", sans-serif;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  /* Lenis(모바일·데스크톱 공통): 스크롤 체감 속도·부드러움 — main.js가 읽음 */
-  --scroll-lerp: 0.14;
-  --scroll-wheel-multiplier: 1.15;
-  --scroll-touch-multiplier: 1.12;
+  /* Lenis 기본값 복원(main.js fallback과 동일) */
+  --scroll-lerp: 0.1;
+  --scroll-wheel-multiplier: 1;
+  --scroll-touch-multiplier: 1;
 }
 
 /* PC 뷰(800px~): 좌우 페이지 인셋을 넓은 화면과 동일하게 — :root clamp의 상한(4.5rem)과 동일 값 고정 */
