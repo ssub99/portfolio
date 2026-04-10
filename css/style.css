@@ -1188,9 +1188,10 @@ main.project-page + .site-chrome-footer .closing {
   padding: clamp(24px, 4vw, 48px) var(--space-page) 0;
 }
 
-/* A·Wallet 예외: 섹션02·06·10·11 — main 좌우 인셋 없이 뷰포트 폭(밴드·이미지) */
+/* A·Wallet 예외: 섹션02·10·디자인시스템(11) 비주얼 — main 좌우 인셋 없이 뷰포트 폭 */
 .case-study--awallet .case-research,
-.case-study--awallet .case-section10 {
+.case-study--awallet .case-section10,
+.case-study--awallet .case-designsys__visual {
   margin-left: calc(-1 * var(--space-page));
   margin-right: calc(-1 * var(--space-page));
   width: calc(100% + 2 * var(--space-page));
@@ -1208,18 +1209,6 @@ main.project-page + .site-chrome-footer .closing {
   max-width: none;
   padding-left: 0;
   padding-right: 0;
-}
-
-.case-study--awallet .case-designsys > .case-designsys__inner--visual.case-inner {
-  margin-left: calc(-1 * var(--space-page));
-  margin-right: calc(-1 * var(--space-page));
-  width: calc(100% + 2 * var(--space-page));
-  max-width: none;
-  box-sizing: border-box;
-}
-
-.case-study--awallet .case-designsys__inner.case-designsys__inner--visual .case-section__visual {
-  max-width: none;
 }
 
 .case-hero {
@@ -1820,14 +1809,6 @@ main.project-page + .site-chrome-footer .closing {
   background: transparent;
 }
 
-/* 섹션11: 이미지 블록만 max 1776·가운데(회색 밴드는 .case-designsys__inner--visual.case-inner) */
-.case-designsys__inner.case-designsys__inner--visual .case-section__visual {
-  box-sizing: border-box;
-  width: 100%;
-  max-width: var(--max-content);
-  margin-inline: auto;
-}
-
 /* EN 3열 본문 열 우측 한글 H2 — 타이틀↔아이브로 24px(아이브로↔본문 8px는 __eyebrow margin) */
 .case-en-section-title {
   margin: 0 0 24px;
@@ -2140,26 +2121,16 @@ main.project-page + .site-chrome-footer .closing {
   /* 마키는 __viewport에서만 가로 overflow 자름(섹션 clip 시 카드 그림자 잘림) */
 }
 
-/* 카피: 1776 중앙 정렬 + 안쪽 120px 를 겹치지 않게 — 뷰포트 풀폭 위에 padding 한 번만 */
-.case-research__inner,
-.case-section10__inner {
-  box-sizing: border-box;
-  width: 100%;
-  max-width: none;
-  margin-inline: 0;
-  padding-inline: 120px;
+/* 카피: case-inner(1776·가운데) + --space-page — 다른 EN 타이틀 블록과 동일 가로 리듬(풀블리드 섹션 대응) */
+.case-research__inner.case-inner,
+.case-section10__inner.case-inner {
+  padding-left: var(--space-page);
+  padding-right: var(--space-page);
 }
 
 .case-research__inner > *,
 .case-section10__inner > * {
   max-width: min(1088px, 100%);
-}
-
-@media (max-width: 960px) {
-  .case-research__inner,
-  .case-section10__inner {
-    padding-inline: min(120px, 5vw);
-  }
 }
 
 .case-research__eyebrow {
@@ -2208,6 +2179,11 @@ main.project-page + .site-chrome-footer .closing {
   align-items: flex-start;
   gap: 16px;
   flex-shrink: 0;
+}
+
+/* 그룹 사이 row-gap(16px)만 있으면 총폭의 50% ≠ (그룹+간격) 한 주기 → 무한 루프 끊김. 끝에 gap 한 칸 보정 */
+.case-research-marquee__track > .case-research-marquee__group:last-child {
+  margin-inline-end: 16px;
 }
 
 .case-research-marquee__item {
@@ -2434,7 +2410,7 @@ main.project-page + .site-chrome-footer .closing {
 }
 
 /* column flex + .case-inner margin:auto 는 폭이 콘텐츠만큼만 잡히므로, 타이틀 inner만 폭·가운데 정렬 명시 */
-.case-designsys > .case-inner:not(.case-designsys__inner--visual) {
+.case-designsys > .case-designsys__inner.case-inner {
   align-self: center;
   box-sizing: border-box;
   width: min(100%, var(--max-content));
@@ -2442,16 +2418,9 @@ main.project-page + .site-chrome-footer .closing {
   margin-right: 0;
 }
 
-/* 비주얼 밴드: 가로 100%·#fafafa — 내부 이미지 블록만 max 1776(아래 .case-section__visual) */
-.case-designsys > .case-designsys__inner--visual.case-inner {
-  align-self: stretch;
-  box-sizing: border-box;
-  width: 100%;
-  max-width: none;
-  margin-left: 0;
-  margin-right: 0;
-  padding: 72px 0;
-  background: #fafafa;
+/* 디자인 시스템 비주얼: 셀프라이브 섹션05와 동일(.case-study-visual-band + fullbleed figure), 배경만 없음 */
+.case-designsys__visual.case-study-visual-band {
+  background-color: transparent;
 }
 
 /* ---------- 랠리즈 디자인 시스템 섹션01: 뱃지·하이라이트·리드 + Key purpose 카드 PNG 스택 ---------- */
@@ -2727,6 +2696,8 @@ main.project-page + .site-chrome-footer .closing {
   padding-bottom: clamp(24px, 4vw, 48px);
 }
 
+/* 트랙을 flex로 가운데 정렬하면(justify-content:center) 트랙 폭 ≫ 뷰포트일 때
+   잘림·시작 프레임에서 양옆이 비고 타일만 한쪽으로 몰려 보일 수 있음 → 섹션02 마키처럼 좌측 기준 */
 .case-section10-marquee__viewport {
   padding: 0 min(48px, 5vw);
   overflow-x: hidden;
@@ -2754,6 +2725,10 @@ main.project-page + .site-chrome-footer .closing {
   align-items: flex-start;
   gap: 16px;
   flex-shrink: 0;
+}
+
+.case-section10-marquee__track > .case-section10-marquee__group:last-child {
+  margin-inline-end: 16px;
 }
 
 .case-section10-marquee__item {
