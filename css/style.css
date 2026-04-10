@@ -21,10 +21,10 @@
   --max-content: 1776px;
   /* 셀프라이브 등 통 PNG: 피그마 아트보드 가로 1920 기준 */
   --selflive-full-visual-max: 1920px;
-  /* EN 섹션(.case-en-layout): 좌(라벨+간격) : 우 본문 = 35:65 — 내부 라벨:간격 비율 85:123 유지 → 85+123 : 본문 = 35:65 ⇒ 본문 386fr */
+  /* EN 섹션(.case-en-layout): 좌(라벨+간격) : 우 본문 = 40:60 — 내부 라벨:간격 비율 85:123 유지 → (85+123):본문 = 40:60 ⇒ 본문 312fr */
   --case-en-col-label: 85fr;
   --case-en-col-gutter: 123fr;
-  --case-en-col-main: 386fr;
+  --case-en-col-main: 312fr;
   /* 케이스 스터디: 히어로→본문·연속 섹션·에이월렛 등 세로 간격 공통값 */
   --case-study-section-gap: 96px;
   --font: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
@@ -1210,10 +1210,16 @@ main.project-page + .site-chrome-footer .closing {
   padding: clamp(24px, 4vw, 48px) var(--space-page) 0;
 }
 
-/* A·Wallet 예외: 섹션02·10·디자인시스템(11) 비주얼 — main 좌우 인셋 없이 뷰포트 폭 */
-.case-study--awallet .case-research,
-.case-study--awallet .case-section10,
-.case-study--awallet .case-designsys__visual {
+/* 통 비주얼·리서치·마키 밴드: main.case-study 좌우 패딩 상쇄(전 프로젝트 공통, 에이월렛 한정 아님) */
+.case-study .case-research,
+.case-study .case-section10,
+.case-study .case-designsys__visual,
+.case-study .case-fullbleed__inner,
+.case-study .case-selflive-p02__inner,
+.case-study .case-sales-mgmt-p03__inner,
+.case-study .case-sales-mgmt-p11__inner,
+.case-study .case-study-visual-band,
+.case-study .case-improve__gallery {
   margin-left: calc(-1 * var(--space-page));
   margin-right: calc(-1 * var(--space-page));
   width: calc(100% + 2 * var(--space-page));
@@ -1221,13 +1227,13 @@ main.project-page + .site-chrome-footer .closing {
   box-sizing: border-box;
 }
 
-.case-study--awallet .case-research-marquee__viewport,
-.case-study--awallet .case-section10-marquee__viewport {
+.case-study .case-research-marquee__viewport,
+.case-study .case-section10-marquee__viewport {
   padding-left: 0;
   padding-right: 0;
 }
 
-.case-study--awallet .case-improve__gallery-scroll {
+.case-study .case-improve__gallery-scroll {
   max-width: none;
   padding-left: 0;
   padding-right: 0;
@@ -1276,10 +1282,10 @@ main.project-page + .site-chrome-footer .closing {
   align-items: start;
 }
 
-/* 히어로: 좌 35% | 우 65% */
+/* 히어로: 좌 40% | 우 60% */
 .case-body__layout {
   display: grid;
-  grid-template-columns: minmax(0, 35fr) minmax(0, 65fr);
+  grid-template-columns: minmax(0, 40fr) minmax(0, 60fr);
   align-items: start;
 }
 
@@ -1967,7 +1973,7 @@ main.project-page + .site-chrome-footer .closing {
 .case-en-label-en {
   margin: 0;
   font-family: var(--font);
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 400;
   line-height: 33.4140625px;
   letter-spacing: 0;
@@ -2169,8 +2175,8 @@ main.project-page + .site-chrome-footer .closing {
 /* 데스크 리서치: 설문 카드 마크업 + 풀폭 무한 마키(우→좌) */
 .case-research-marquee {
   isolation: isolate;
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
+  width: 100%;
+  margin-left: 0;
   margin-top: 0;
   padding: 0;
 }
@@ -2349,8 +2355,8 @@ main.project-page + .site-chrome-footer .closing {
 }
 
 .case-improve__gallery {
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
+  width: 100%;
+  margin-left: 0;
   box-sizing: border-box;
   /* 피그마 section06: 프레임 높이 913 — 밴드 내부 상·하 패딩 24px */
   padding: 24px 0;
@@ -2467,7 +2473,7 @@ main.project-page + .site-chrome-footer .closing {
 /* 하이라이트 덩어리 위에 Point 뱃지 겹침(피그마 레이어 순서) */
 .case-rallyzds-p01__hl-cluster {
   position: relative;
-  display: inline-block;
+  display: inline;
   vertical-align: baseline;
 }
 
@@ -2499,19 +2505,21 @@ main.project-page + .site-chrome-footer .closing {
 
 .case-rallyzds-p01__hl-cluster--01 .case-rallyzds-p01__badge {
   left: -39px;
-  top: -10px;
+  top: -18px;
 }
 
 .case-rallyzds-p01__hl-cluster--02 .case-rallyzds-p01__badge {
   left: -30px;
-  top: -10px;
+  top: -18px;
 }
 
 .case-rallyzds-p01__hl {
+  display: inline;
   background: #e3ffe6;
   box-decoration-break: clone;
   padding: 2px 0;
   font-weight: 700;
+  white-space: normal;
 }
 
 .case-rallyzds-p01__visual {
@@ -2705,8 +2713,8 @@ main.project-page + .site-chrome-footer .closing {
 .case-section10-marquees {
   position: relative;
   z-index: 1;
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
+  width: 100%;
+  margin-left: 0;
   display: flex;
   flex-direction: column;
   gap: 24px;
