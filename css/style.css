@@ -1233,12 +1233,6 @@ main.project-page + .site-chrome-footer .closing {
   padding-right: 0;
 }
 
-.case-study .case-improve__gallery-scroll {
-  max-width: none;
-  padding-left: 0;
-  padding-right: 0;
-}
-
 .case-hero {
   max-width: var(--max-content);
   margin: 0 auto;
@@ -2333,6 +2327,10 @@ main.project-page + .site-chrome-footer .closing {
   align-items: stretch;
 }
 
+.case-design-dir__visual.case-study-visual-band {
+  background-color: #fafafa;
+}
+
 /* ---------- Key functions(섹션05) ---------- */
 
 /* 섹션05: 합성 PNG 단일 — 전역 .case-section__visual 배경(#fafafa) 미적용 */
@@ -2358,38 +2356,9 @@ main.project-page + .site-chrome-footer .closing {
   width: 100%;
   margin-left: 0;
   box-sizing: border-box;
-  /* 피그마 section06: 프레임 높이 913 — 밴드 내부 상·하 패딩 24px */
-  padding: 24px 0;
+  padding: 0;
   background: #fafafa;
   overflow: hidden;
-}
-
-.case-improve__gallery-scroll {
-  max-width: 1920px;
-  margin: 0 auto;
-  padding: 0 var(--space-page);
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-/* 피그마 section06 합성 PNG — 뷰포트 너비에 맞춰 밴드 높이 913/1920로 제한 후 초과분 클립 */
-@media (min-width: 961px) {
-  .case-improve__gallery {
-    max-height: min(913px, calc(100vw * 913 / 1920));
-  }
-}
-
-/* 피그마 section06 프레임 합성 PNG(3350×2304) — 1920 콘텐츠 폭에 맞춰 가변 */
-.case-improve__figure {
-  margin: 0;
-  line-height: 0;
-  overflow: hidden;
-}
-
-.case-improve__figure img {
-  display: block;
-  width: 100%;
-  height: auto;
 }
 
 /* ---------- 상세 기능 설계(섹션07) ---------- */
