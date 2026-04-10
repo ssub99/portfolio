@@ -46,10 +46,26 @@
     }
   }
 
-  if (!reduceMotion) {
-    var nodes = document.querySelectorAll("[data-reveal]");
-    if (nodes.length && "IntersectionObserver" in window) {
-      var io = new IntersectionObserver(
+  var revealObserver = null;
+
+  function initReveal() {
+    if (reduceMotion) {
+      document.querySelectorAll("[data-reveal]").forEach(function (el) {
+        el.classList.add("is-visible");
+      });
+      return;
+    }
+
+    var nodes = document.querySelectorAll("[data-reveal]:not(.is-visible)");
+    if (!nodes.length) return;
+
+    if (revealObserver) {
+      revealObserver.disconnect();
+      revealObserver = null;
+    }
+
+    if ("IntersectionObserver" in window) {
+      revealObserver = new IntersectionObserver(
         function (entries, obs) {
           entries.forEach(function (entry) {
             if (!entry.isIntersecting) return;
@@ -57,21 +73,31 @@
             obs.unobserve(entry.target);
           });
         },
-        { root: null, rootMargin: "0px 0px -8% 0px", threshold: 0.08 }
+        { root: null, rootMargin: "0px", threshold: 0 }
       );
       nodes.forEach(function (el) {
-        io.observe(el);
+        revealObserver.observe(el);
       });
     } else {
       nodes.forEach(function (el) {
         el.classList.add("is-visible");
       });
     }
-  } else {
-    document.querySelectorAll("[data-reveal]").forEach(function (el) {
-      el.classList.add("is-visible");
-    });
   }
+
+  initReveal();
+
+  /* 모바일 게이트 해제 후 main이 다시 그려질 때 재관찰(이전에 display:none이면 is-visible이 영구 미부착) */
+  window.addEventListener("portfolio:reveal-refresh", initReveal);
+
+  /* 폰트·이미지 이후 레이아웃 보정 후 한 번 더(첫 화면 카드 누락 완화) */
+  window.addEventListener(
+    "load",
+    function () {
+      requestAnimationFrame(initReveal);
+    },
+    { once: true }
+  );
 })();
 
 (function () {
@@ -239,6 +265,9 @@
       if (gate) gate.remove();
       root.classList.remove(cls);
       document.documentElement.classList.remove(cls);
+      requestAnimationFrame(function () {
+        window.dispatchEvent(new Event("portfolio:reveal-refresh"));
+      });
     }
   }
 

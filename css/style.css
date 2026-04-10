@@ -611,6 +611,15 @@ main:not([class]) {
 .case-study > [data-reveal]:nth-child(15) { transition-delay: 0.24s; }
 .case-study > [data-reveal]:nth-child(16) { transition-delay: 0.27s; }
 
+/* 데스크리서치: 섹션 리빌은 opacity만 — 부모 translateY와 마키 translate3d 겹침 시 Windows 크로미움에서 애니메이션 멈춤 완화 */
+.case-study .case-research[data-reveal] {
+  transform: none;
+}
+
+.case-study .case-research[data-reveal].is-visible {
+  transform: none;
+}
+
 /* ===== 프로젝트 케이스: 이전/다음(피그마: 280×108, r60) — 좌우는 본문·case-inner와 동일 인셋(--space-page) ===== */
 .project-pager {
   box-sizing: border-box;
@@ -2152,6 +2161,7 @@ main.project-page + .site-chrome-footer .closing {
 
 /* 데스크 리서치: 설문 카드 마크업 + 풀폭 무한 마키(우→좌) */
 .case-research-marquee {
+  isolation: isolate;
   width: 100vw;
   margin-left: calc(50% - 50vw);
   margin-top: 0;
@@ -2194,7 +2204,7 @@ main.project-page + .site-chrome-footer .closing {
 .case-survey-card {
   box-sizing: border-box;
   width: 424px;
-  max-width: min(424px, calc(100vw - 48px));
+  max-width: 100%;
   margin: 0;
   padding: 32px;
   border-radius: 32px;
