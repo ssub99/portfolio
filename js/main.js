@@ -275,3 +275,66 @@
   if (mq.addEventListener) mq.addEventListener("change", sync);
   else mq.addListener(sync);
 })();
+
+/** Lenis: 휠·터치 스크롤 감도(:root --scroll-*). 모바일 포함 전 구간 */
+(function () {
+  if (typeof Lenis === "undefined") return;
+
+  var rm = window.matchMedia("(prefers-reduced-motion: reduce)");
+  var lenis = null;
+  var rafId = null;
+
+  function readScrollOpts() {
+    var s = getComputedStyle(document.documentElement);
+    var lerp = parseFloat(s.getPropertyValue("--scroll-lerp"));
+    var wheel = parseFloat(s.getPropertyValue("--scroll-wheel-multiplier"));
+    var touch = parseFloat(s.getPropertyValue("--scroll-touch-multiplier"));
+    return {
+      lerp: isNaN(lerp) ? 0.1 : lerp,
+      wheelMultiplier: isNaN(wheel) ? 1 : wheel,
+      touchMultiplier: isNaN(touch) ? 1 : touch
+    };
+  }
+
+  function loop(t) {
+    if (!lenis) {
+      rafId = null;
+      return;
+    }
+    lenis.raf(t);
+    rafId = requestAnimationFrame(loop);
+  }
+
+  function start() {
+    if (rm.matches || lenis) return;
+    var o = readScrollOpts();
+    lenis = new Lenis({
+      lerp: o.lerp,
+      wheelMultiplier: o.wheelMultiplier,
+      touchMultiplier: o.touchMultiplier,
+      smoothWheel: true,
+      syncTouch: true
+    });
+    rafId = requestAnimationFrame(loop);
+  }
+
+  function stop() {
+    if (rafId !== null) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+    if (lenis) {
+      lenis.destroy();
+      lenis = null;
+    }
+  }
+
+  function syncReducedMotion() {
+    if (rm.matches) stop();
+    else start();
+  }
+
+  syncReducedMotion();
+  if (rm.addEventListener) rm.addEventListener("change", syncReducedMotion);
+  else rm.addListener(syncReducedMotion);
+})();

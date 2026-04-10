@@ -21,16 +21,20 @@
   --max-content: 1776px;
   /* 셀프라이브 등 통 PNG: 피그마 아트보드 가로 1920 기준 */
   --selflive-full-visual-max: 1920px;
-  /* EN 섹션 타이틀 행(.case-en-layout): 모든 프로젝트 동일 비율 — 좌 라벨 : 간격 : 우 본문 = 85:123:312fr */
+  /* EN 섹션(.case-en-layout): 좌(라벨+간격) : 우 본문 = 35:65 — 내부 라벨:간격 비율 85:123 유지 → 85+123 : 본문 = 35:65 ⇒ 본문 386fr */
   --case-en-col-label: 85fr;
   --case-en-col-gutter: 123fr;
-  --case-en-col-main: 312fr;
+  --case-en-col-main: 386fr;
   /* 케이스 스터디: 히어로→본문·연속 섹션·에이월렛 등 세로 간격 공통값 */
   --case-study-section-gap: 96px;
   --font: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   /* 피그마: DINPro Bold. 로컬/라이선스 폰트 우선 → 없으면 웹폰트 Barlow Condensed(비슷한 산세리프) */
   --font-logo: "DIN Pro", "DINPro", DINPro, "Barlow Condensed", "Arial Narrow", sans-serif;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Lenis(모바일·데스크톱 공통): 스크롤 체감 속도·부드러움 — main.js가 읽음 */
+  --scroll-lerp: 0.14;
+  --scroll-wheel-multiplier: 1.15;
+  --scroll-touch-multiplier: 1.12;
 }
 
 /* PC 뷰(800px~): 좌우 페이지 인셋을 넓은 화면과 동일하게 — :root clamp의 상한(4.5rem)과 동일 값 고정 */
@@ -48,6 +52,15 @@
 
 html {
   scroll-behavior: smooth;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+html.lenis {
+  scroll-behavior: auto !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1263,10 +1276,10 @@ main.project-page + .site-chrome-footer .closing {
   align-items: start;
 }
 
-/* 히어로: 좌 40% | 우 60%(= EN 좌·우 합 비율과 맞춤) */
+/* 히어로: 좌 35% | 우 65% */
 .case-body__layout {
   display: grid;
-  grid-template-columns: minmax(0, 40fr) minmax(0, 60fr);
+  grid-template-columns: minmax(0, 35fr) minmax(0, 65fr);
   align-items: start;
 }
 
@@ -1299,9 +1312,8 @@ main.project-page + .site-chrome-footer .closing {
 
 .case-meta {
   display: grid;
-  /* 피그마 Frame 1000004712 / 4713 / 4714: 폭 356·318·237, 열 간격 32 */
-  grid-template-columns: 356px 318px 237px;
-  gap: 32px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1.25rem, 3vw, 2rem);
   margin: 0;
 }
 
@@ -1340,9 +1352,12 @@ main.project-page + .site-chrome-footer .closing {
   align-self: center;
 }
 
-/* 시안 고정폭(356+318+237+64 gap)이 우측 60% 칸보다 넓을 때 한 줄로 쌓음 */
 @media (max-width: 1100px) {
-  .case-meta {
+  .case-meta:not(.case-meta--case-hero) {
+    grid-template-columns: 1fr;
+  }
+
+  .case-meta--case-hero {
     grid-template-columns: 1fr;
   }
 }
@@ -1373,15 +1388,18 @@ main.project-page + .site-chrome-footer .closing {
   max-width: 876px;
 }
 
+/* 케이스 히어로 메타: 2×2 — 수행기간·담당역할 / 참여도·참여인원 */
 .case-meta--case-hero {
-  grid-template-columns: repeat(4, max-content);
-  width: max-content;
+  grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+  column-gap: clamp(1.25rem, 3vw, 3rem);
+  row-gap: clamp(1rem, 2vw, 2rem);
+  width: 100%;
   max-width: none;
-  gap: 32px;
+  align-items: start;
 }
 
 .case-meta--case-hero .case-meta__group {
-  min-width: max-content;
+  min-width: 0;
 }
 
 .case-meta--case-hero .case-meta__label {
@@ -1392,7 +1410,6 @@ main.project-page + .site-chrome-footer .closing {
   font-size: 18px;
   font-weight: 700;
   line-height: 27px;
-  white-space: nowrap;
 }
 
 .case-meta--case-hero .case-meta__value-row {
@@ -1401,19 +1418,18 @@ main.project-page + .site-chrome-footer .closing {
   color: #797979;
   font-size: 18px;
   font-weight: 400;
-  letter-spacing: 0.5px;
-  line-height: 31.5px;
-  white-space: nowrap;
+  letter-spacing: 0;
+  line-height: 27px;
+  white-space: normal;
 }
 
 .case-meta--case-hero .case-meta__value-row span {
-  white-space: inherit;
+  white-space: normal;
 }
 
 .case-body__main:has(.case-meta--case-hero) {
-  overflow-x: auto;
+  overflow-x: visible;
   overflow-y: visible;
-  -webkit-overflow-scrolling: touch;
 }
 
 /* ----- 케이스 스터디 섹션 세로 간격: :root --case-study-section-gap + .case-section-mt-after-hero | .case-section-mt-stack ----- */
@@ -1767,26 +1783,17 @@ main.project-page + .site-chrome-footer .closing {
   }
 }
 
-@media (max-width: 1040px) {
-  .case-meta--case-hero {
-    grid-template-columns: repeat(2, max-content);
-  }
-}
-
 @media (max-width: 720px) {
   .case-meta--case-hero {
     grid-template-columns: 1fr;
     width: 100%;
-    max-width: 100%;
+    max-width: none;
+    column-gap: 0;
+    row-gap: 1.5rem;
   }
 
   .case-meta--case-hero .case-meta__group {
     min-width: 0;
-  }
-
-  .case-meta--case-hero .case-meta__label,
-  .case-meta--case-hero .case-meta__value-row {
-    white-space: normal;
   }
 }
 
