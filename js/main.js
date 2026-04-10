@@ -49,6 +49,69 @@
   var revealObserver = null;
   var revealGeometryRaf = false;
 
+  /** 프로젝트 상세 .case-hero: 내부 img 로드 완료 후 리빌(빈 프레임 깜빡임 완화). 타임아웃 시에도 진행 */
+  function whenHeroMainVisualReady(el, then) {
+    if (!el.classList || !el.classList.contains("case-hero")) {
+      then();
+      return;
+    }
+    var imgs = el.querySelectorAll("img");
+    if (!imgs.length) {
+      then();
+      return;
+    }
+    var pending = 0;
+    Array.prototype.forEach.call(imgs, function (img) {
+      if (!img.complete) pending += 1;
+    });
+    if (pending === 0) {
+      then();
+      return;
+    }
+    var called = false;
+    function done() {
+      if (called) return;
+      called = true;
+      then();
+    }
+    var left = pending;
+    Array.prototype.forEach.call(imgs, function (img) {
+      if (img.complete) return;
+      img.addEventListener(
+        "load",
+        function () {
+          left -= 1;
+          if (left <= 0) done();
+        },
+        { once: true }
+      );
+      img.addEventListener(
+        "error",
+        function () {
+          left -= 1;
+          if (left <= 0) done();
+        },
+        { once: true }
+      );
+    });
+    setTimeout(done, 12000);
+  }
+
+  /**
+   * 첫 페인트와 같은 틱에 .is-visible을 붙이면 브라우저가 transition을 생략함(히어로 등 이미 뷰포트 안 요소).
+   * rAF 두 번 뒤에 붙여 opacity/transform 초기 상태가 한 프레임 그려지게 함.
+   */
+  function applyRevealVisible(el) {
+    if (reduceMotion || el.classList.contains("is-visible")) return;
+    whenHeroMainVisualReady(el, function () {
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          if (!el.classList.contains("is-visible")) el.classList.add("is-visible");
+        });
+      });
+    });
+  }
+
   /** Lenis·일부 윈도우 크로미움에서 IO만으로 is-visible이 안 붙을 때 보강 */
   function syncRevealByGeometry() {
     if (reduceMotion) return;
@@ -56,7 +119,6 @@
     document.querySelectorAll("[data-reveal]:not(.is-visible)").forEach(function (el) {
       var r = el.getBoundingClientRect();
       if (r.bottom > 0 && r.top < h) {
-        el.classList.add("is-visible");
         if (revealObserver) {
           try {
             revealObserver.unobserve(el);
@@ -64,6 +126,7 @@
             /* not observed */
           }
         }
+        applyRevealVisible(el);
       }
     });
   }
@@ -102,8 +165,8 @@
         function (entries, obs) {
           entries.forEach(function (entry) {
             if (!entry.isIntersecting) return;
-            entry.target.classList.add("is-visible");
             obs.unobserve(entry.target);
+            applyRevealVisible(entry.target);
           });
         },
         { root: null, rootMargin: "0px", threshold: 0 }
@@ -113,7 +176,7 @@
       });
     } else {
       nodes.forEach(function (el) {
-        el.classList.add("is-visible");
+        applyRevealVisible(el);
       });
     }
 
