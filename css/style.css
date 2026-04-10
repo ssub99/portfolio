@@ -325,9 +325,16 @@ a {
 }
 
 /* ===== Hero ===== */
+/* 홈(index): 좌우 --space-page 는 class 없는 main 한 번만 — 히어로·프로젝트 중복 제거 */
+main:not([class]) {
+  box-sizing: border-box;
+  padding-left: var(--space-page);
+  padding-right: var(--space-page);
+}
+
 /* 홈: 히어로 ↔ 프로젝트 섹션 간격 72px(하단 패딩만, .projects 상단 패딩 0과 합산) */
 .hero {
-  padding: clamp(3rem, 8vw, 6rem) var(--space-page) 72px;
+  padding: clamp(3rem, 8vw, 6rem) 0 72px;
 }
 
 .hero__inner {
@@ -428,7 +435,7 @@ a {
   display: flex;
   flex-direction: column;
   gap: 32px;
-  padding: 0 var(--space-page) 32px;
+  padding: 0 0 32px;
 }
 
 .projects__head {
