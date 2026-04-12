@@ -355,7 +355,7 @@
     root.setAttribute("lang", "ko");
     root.innerHTML =
       '<header class="mobile-gate__bar">' +
-      '<p class="mobile-gate__brand font-logo">SONG HYO SUB</p>' +
+      '<p class="mobile-gate__brand">SONG HYO SUB</p>' +
       "</header>" +
       '<div class="mobile-gate__card" role="region" aria-labelledby="mobile-gate-heading">' +
       '<div class="mobile-gate__card-inner">' +

@@ -27,9 +27,17 @@
   --case-en-col-main: 312fr;
   /* 케이스 스터디: 히어로→본문·연속 섹션·에이월렛 등 세로 간격 공통값 */
   --case-study-section-gap: 96px;
-  --font: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  /* 피그마: DINPro Bold. 로컬/라이선스 폰트 우선 → 없으면 웹폰트 Barlow Condensed(비슷한 산세리프) */
-  --font-logo: "DIN Pro", "DINPro", DINPro, "Barlow Condensed", "Arial Narrow", sans-serif;
+  /*
+   * Typekit 임베드(HTML `<head>`와 동일): https://use.typekit.net/nck6cvt.css
+   *
+   * Pretendard(본문): Adobe font-family: pretendard, sans-serif;
+   * URW DIN(로고·피그마 DIN Pro 시안): Adobe font-family: urw-din, sans-serif;
+   *
+   * 굵기는 웹 프로젝트에서 활성화한 웨이트만 제공됨.
+   */
+  --font-pretendard: pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-din: urw-din, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font: var(--font-pretendard);
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   /* Lenis 기본값 복원(main.js fallback과 동일) */
   --scroll-lerp: 0.1;
@@ -182,15 +190,15 @@ a {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
 }
 
-/* 다른 요소에 헤더와 같은 폰트만 쓰려면: class에 font-logo 추가, 또는 font-family: var(--font-logo); */
-.font-logo {
-  font-family: var(--font-logo);
+/* 브랜드/로고(DIN Pro 시안 → Adobe urw-din): class에 font-din 추가, 또는 font-family: var(--font-din); */
+.font-din {
+  font-family: var(--font-din);
   font-weight: 700;
   letter-spacing: 0;
 }
 
 .site-logo {
-  font-family: var(--font-logo);
+  font-family: var(--font-din);
   font-weight: 700;
   font-size: clamp(1.125rem, 3.5vw, 1.75rem);
   line-height: calc(36 / 28);
@@ -276,7 +284,7 @@ a {
 
   .mobile-gate__brand {
     margin: 0;
-    font-family: var(--font-logo);
+    font-family: var(--font-din);
     font-size: 28px;
     font-weight: 700;
     line-height: 36px;
@@ -828,7 +836,7 @@ main:not([class]) {
 
 .project-page__title {
   margin: 0;
-  font-family: var(--font-logo);
+  font-family: var(--font-din);
   font-size: clamp(2.5rem, 8vw, 4rem);
   font-weight: 900;
   line-height: 1.25;
