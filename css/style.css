@@ -28,13 +28,15 @@
   /* 케이스 스터디: 히어로→본문·연속 섹션·에이월렛 등 세로 간격 공통값 */
   --case-study-section-gap: 96px;
   /*
-   * Typekit: https://use.typekit.net/nck6cvt.css
-   * Pretendard / urw-din 패밀리명만 변수로 둠.
+   * Adobe Fonts 키트 nck6cvt: HTML에서 .css 링크 + nck6cvt.js + Typekit.load (helpx.adobe.com/kr/fonts/using/embed-codes.html)
+   * Pretendard / urw-din / Permanent Marker 패밀리명만 변수로 둠.
    * 주의: font-family에 var(--x) 한 방에 "글꼴A, 글꼴B" 전체를 넣으면(쉼표 포함) 일부 환경에서 파싱이 깨질 수 있음.
    *       폴백 스택의 쉼표는 항상 font-family: 선언 안에 직접 적는다.
    */
   --typekit-pretendard: pretendard;
   --typekit-urw-din: "urw-din";
+  /* Permanent Marker: nck6cvt 키트 JS에 family "permanent-marker" + 선택자 .tk-permanent-marker (use.typekit.net/nck6cvt.js) */
+  --typekit-permanent-marker: "permanent-marker";
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   /* Lenis 기본값 복원(main.js fallback과 동일) */
   --scroll-lerp: 0.1;
@@ -190,13 +192,13 @@ a {
 /* 브랜드/로고(DIN Pro 시안 → Adobe urw-din) */
 .font-din {
   font-family: var(--typekit-urw-din), sans-serif;
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: 0;
 }
 
 .site-logo {
   font-family: var(--typekit-urw-din), sans-serif;
-  font-weight: 900;
+  font-weight: 700;
   font-size: clamp(1.125rem, 3.5vw, 1.75rem);
   line-height: calc(36 / 28);
   letter-spacing: 0;
@@ -283,7 +285,7 @@ a {
     margin: 0;
     font-family: var(--typekit-urw-din), sans-serif;
     font-size: 28px;
-    font-weight: 900;
+    font-weight: 700;
     line-height: 36px;
     letter-spacing: 0;
     color: #000000;
@@ -319,7 +321,7 @@ a {
     margin: 0 0 4px;
     font-family: var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
     font-size: 18px;
-    font-weight: 900;
+    font-weight: 700;
     line-height: 27px;
     letter-spacing: 0;
     color: #000000;
@@ -835,7 +837,7 @@ main:not([class]) {
   margin: 0;
   font-family: var(--typekit-urw-din), sans-serif;
   font-size: clamp(2.5rem, 8vw, 4rem);
-  font-weight: 900;
+  font-weight: 700;
   line-height: 1.25;
   letter-spacing: 0;
   text-align: center;
@@ -1980,9 +1982,11 @@ main.project-page + .site-chrome-footer .closing {
 
 .case-handdraw__text {
   margin: 0;
-  font-family: "Permanent Marker", var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  /* Typekit permanent-marker 우선 — 로컬 등 도메인 제한 시 Google "Permanent Marker"로 대체(project-payment.html에서 로드) */
+  font-family: var(--typekit-permanent-marker), "Permanent Marker", sans-serif, cursive, var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-size: 18px;
   font-weight: 400;
+  font-style: normal;
   line-height: 27px;
   letter-spacing: 0;
 }
