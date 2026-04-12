@@ -1982,8 +1982,8 @@ main.project-page + .site-chrome-footer .closing {
 
 .case-handdraw__text {
   margin: 0;
-  /* Typekit permanent-marker 우선 — 로컬 등 도메인 제한 시 Google "Permanent Marker"로 대체(project-payment.html에서 로드) */
-  font-family: var(--typekit-permanent-marker), "Permanent Marker", sans-serif, cursive, var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  /* Typekit permanent-marker + .tk-permanent-marker(HTML) — Adobe nck6cvt 키트만 사용 */
+  font-family: var(--typekit-permanent-marker), sans-serif, cursive, var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-size: 18px;
   font-weight: 400;
   font-style: normal;
