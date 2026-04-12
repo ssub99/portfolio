@@ -319,13 +319,13 @@ a {
     margin: 0 0 4px;
     font-family: var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
     font-size: 18px;
-    font-weight: 700;
+    font-weight: 900;
     line-height: 27px;
     letter-spacing: 0;
     color: #000000;
   }
 
-  .mobile-gate__copy {
+  .mobile-gate__contents {
     margin: 0;
     font-family: var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
     font-size: 18px;

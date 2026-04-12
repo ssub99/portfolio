@@ -361,7 +361,7 @@
       '<div class="mobile-gate__card-inner">' +
       '<p class="mobile-gate__wave" aria-hidden="true">👋🏻</p>' +
       '<h1 id="mobile-gate-heading" class="mobile-gate__title">포트폴리오 접근 안내</h1>' +
-      '<p class="mobile-gate__copy">PC에 최적화 되어있습니다.<br>브라우저를 통해 접근해 주세요.</p>' +
+      '<p class="mobile-gate__contents">PC에 최적화 되어있습니다.<br>브라우저를 통해 접근해 주세요.</p>' +
       "</div></div>";
     return root;
   }
