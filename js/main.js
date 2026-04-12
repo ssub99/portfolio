@@ -49,7 +49,7 @@
   var revealObserver = null;
   var revealGeometryRaf = false;
   /** 리빌이 켜지는 시점을 살짝 늦춤: 요소 상단이 뷰포트 하단에서 이 px만큼 더 올라와야 트리거(IO rootMargin 하단 음수와 동일 기준) */
-  var revealTriggerInsetPx = 240;
+  var revealTriggerInsetPx = 160;
 
   /** 프로젝트 상세 .case-hero: 내부 img 로드 완료 후 리빌(빈 프레임 깜빡임 완화). 타임아웃 시에도 진행 */
   function whenHeroMainVisualReady(el, then) {
