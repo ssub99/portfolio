@@ -190,13 +190,13 @@ a {
 /* 브랜드/로고(DIN Pro 시안 → Adobe urw-din) */
 .font-din {
   font-family: var(--typekit-urw-din), sans-serif;
-  font-weight: 700;
+  font-weight: 900;
   letter-spacing: 0;
 }
 
 .site-logo {
   font-family: var(--typekit-urw-din), sans-serif;
-  font-weight: 700;
+  font-weight: 900;
   font-size: clamp(1.125rem, 3.5vw, 1.75rem);
   line-height: calc(36 / 28);
   letter-spacing: 0;
@@ -283,7 +283,7 @@ a {
     margin: 0;
     font-family: var(--typekit-urw-din), sans-serif;
     font-size: 28px;
-    font-weight: 700;
+    font-weight: 900;
     line-height: 36px;
     letter-spacing: 0;
     color: #000000;
@@ -2348,21 +2348,12 @@ main.project-page + .site-chrome-footer .closing {
 
 /* ---------- Service design direction(섹션04) ---------- */
 
-/* 섹션04: Service Design Direction — 본문(case-body)과 동일 1776 그리드(30|70), 피그마 타이포·간격 */
+/* 섹션04: Service Design Direction — 셀프라이브 EN 섹션과 동일 블록 스택(.case-inner는 전역 max-width+margin:auto) */
 .case-design-dir {
   margin-top: var(--case-study-section-gap);
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-}
-
-.case-design-dir > .case-design-dir__inner.case-inner,
-.case-improve > .case-improve__inner.case-inner {
-  align-self: center;
   box-sizing: border-box;
-  width: min(100%, var(--max-content));
-  margin-left: 0;
-  margin-right: 0;
+  width: 100%;
+  max-width: none;
 }
 
 .case-design-dir__visual.case-study-visual-band {
@@ -2382,12 +2373,12 @@ main.project-page + .site-chrome-footer .closing {
 
 /* ---------- 개선·갤러리(섹션06) ---------- */
 
-/* 섹션06: 본문 EN 라벨 행(49|71|280 · 30|70) + 합성 비주얼(피그마 section06, max 1920) */
+/* 섹션06: 본문 EN 라벨 행 + 갤러리 — 블록 스택(셀프라이브 .case-section-mt-stack과 동일 리듬) */
 .case-improve {
   margin-top: var(--case-study-section-gap);
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
 }
 
 .case-improve__gallery {
@@ -2401,51 +2392,42 @@ main.project-page + .site-chrome-footer .closing {
 
 /* ---------- 상세 기능 설계(섹션07) ---------- */
 
-/* Detailed Functional Design — 본문 + 피그마 section07 합성 비주얼(맥스 폭 --max-content 1776) */
+/* Detailed Functional Design — 블록 스택 + .case-inner */
 .case-detail-design {
   margin-top: var(--case-study-section-gap);
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
 }
 
 /* ---------- 섹션08 ---------- */
 
-/* 섹션08: AI 간편 입력(피그마 타이틀 블록 — case-detail-design과 동일 그리드·타이포) */
+/* 섹션08: AI 간편 입력 — 블록 스택 */
 .case-section08 {
   margin-top: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
 }
 
 /* ---------- 섹션09 ---------- */
 
-/* 섹션09: AI 소비 리포트(피그마 타이틀 블록 — 섹션08과 동일 패턴) */
+/* 섹션09: AI 소비 리포트 — 블록 스택 */
 .case-section09 {
   margin-top: var(--case-study-section-gap);
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
 }
 
 /* ---------- 디자인 시스템 ---------- */
 
-/* 디자인 시스템 — 피그마 729:346~349, 합성 비주얼(section11-visual01) */
+/* 디자인 시스템 — 블록 스택(에이월렛 EN 섹션과 동일) */
 .case-designsys {
   margin-top: var(--case-study-section-gap);
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-}
-
-/* column flex + .case-inner margin:auto 는 폭이 콘텐츠만큼만 잡히므로, 타이틀 inner만 폭·가운데 정렬 명시 */
-.case-designsys > .case-designsys__inner.case-inner {
-  align-self: center;
   box-sizing: border-box;
-  width: min(100%, var(--max-content));
-  margin-left: 0;
-  margin-right: 0;
+  width: 100%;
+  max-width: none;
 }
 
 /* 디자인 시스템 비주얼: 셀프라이브 섹션05와 동일(.case-study-visual-band + fullbleed figure), 배경만 없음 */
