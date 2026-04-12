@@ -767,6 +767,10 @@ main:not([class]) {
   padding-right: var(--space-page);
 }
 
+.site-chrome-footer__reveal {
+  display: block;
+}
+
 .site-footer {
   margin-top: 0;
   padding: clamp(2rem, 5vw, 3.5rem) 0 clamp(2rem, 6vw, 4rem);
@@ -1757,6 +1761,26 @@ main.project-page + .site-chrome-footer .closing {
   line-height: 48px;
   letter-spacing: 0;
   color: #565656;
+}
+
+.case-sales-mgmt-p06__kpi-value-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.case-sales-mgmt-p06__kpi-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 11px;
+}
+
+.case-sales-mgmt-p06__kpi-icon img {
+  display: block;
+  width: 16px;
+  height: 11px;
 }
 
 .case-sales-mgmt-p06 .case-en-main > .case-en-main-stack__figure,

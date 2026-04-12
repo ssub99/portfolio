@@ -48,6 +48,8 @@
 
   var revealObserver = null;
   var revealGeometryRaf = false;
+  /** 리빌이 켜지는 시점을 살짝 늦춤: 요소 상단이 뷰포트 하단에서 이 px만큼 더 올라와야 트리거(IO rootMargin 하단 음수와 동일 기준) */
+  var revealTriggerInsetPx = 240;
 
   /** 프로젝트 상세 .case-hero: 내부 img 로드 완료 후 리빌(빈 프레임 깜빡임 완화). 타임아웃 시에도 진행 */
   function whenHeroMainVisualReady(el, then) {
@@ -118,7 +120,8 @@
     var h = window.innerHeight || document.documentElement.clientHeight;
     document.querySelectorAll("[data-reveal]:not(.is-visible)").forEach(function (el) {
       var r = el.getBoundingClientRect();
-      if (r.bottom > 0 && r.top < h) {
+      var triggerLine = h - revealTriggerInsetPx;
+      if (r.bottom > 0 && r.top < triggerLine) {
         if (revealObserver) {
           try {
             revealObserver.unobserve(el);
@@ -169,7 +172,11 @@
             applyRevealVisible(entry.target);
           });
         },
-        { root: null, rootMargin: "0px", threshold: 0 }
+        {
+          root: null,
+          rootMargin: "0px 0px -" + revealTriggerInsetPx + "px 0px",
+          threshold: 0
+        }
       );
       nodes.forEach(function (el) {
         revealObserver.observe(el);
