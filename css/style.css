@@ -28,16 +28,13 @@
   /* 케이스 스터디: 히어로→본문·연속 섹션·에이월렛 등 세로 간격 공통값 */
   --case-study-section-gap: 96px;
   /*
-   * Typekit 임베드(HTML `<head>`와 동일): https://use.typekit.net/nck6cvt.css
-   *
-   * Pretendard(본문): Adobe font-family: pretendard, sans-serif;
-   * URW DIN(로고·피그마 DIN Pro 시안): Adobe font-family: urw-din, sans-serif;
-   *
-   * 굵기는 웹 프로젝트에서 활성화한 웨이트만 제공됨.
+   * Typekit: https://use.typekit.net/nck6cvt.css
+   * Pretendard / urw-din 패밀리명만 변수로 둠.
+   * 주의: font-family에 var(--x) 한 방에 "글꼴A, 글꼴B" 전체를 넣으면(쉼표 포함) 일부 환경에서 파싱이 깨질 수 있음.
+   *       폴백 스택의 쉼표는 항상 font-family: 선언 안에 직접 적는다.
    */
-  --font-pretendard: pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  --font-din: urw-din, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  --font: var(--font-pretendard);
+  --typekit-pretendard: pretendard;
+  --typekit-urw-din: "urw-din";
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   /* Lenis 기본값 복원(main.js fallback과 동일) */
   --scroll-lerp: 0.1;
@@ -84,7 +81,7 @@ html.lenis {
 
 body {
   margin: 0;
-  font-family: var(--font);
+  font-family: var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-size: 18px;
   font-weight: 400;
   line-height: 1.5;
@@ -190,15 +187,15 @@ a {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
 }
 
-/* 브랜드/로고(DIN Pro 시안 → Adobe urw-din): class에 font-din 추가, 또는 font-family: var(--font-din); */
+/* 브랜드/로고(DIN Pro 시안 → Adobe urw-din) */
 .font-din {
-  font-family: var(--font-din);
+  font-family: var(--typekit-urw-din), sans-serif;
   font-weight: 700;
   letter-spacing: 0;
 }
 
 .site-logo {
-  font-family: var(--font-din);
+  font-family: var(--typekit-urw-din), sans-serif;
   font-weight: 700;
   font-size: clamp(1.125rem, 3.5vw, 1.75rem);
   line-height: calc(36 / 28);
@@ -284,7 +281,7 @@ a {
 
   .mobile-gate__brand {
     margin: 0;
-    font-family: var(--font-din);
+    font-family: var(--typekit-urw-din), sans-serif;
     font-size: 28px;
     font-weight: 700;
     line-height: 36px;
@@ -315,12 +312,12 @@ a {
     font-size: 72px;
     line-height: 1;
     font-weight: 700;
-    font-family: var(--font);
+    font-family: var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   }
 
   .mobile-gate__title {
     margin: 0 0 4px;
-    font-family: var(--font);
+    font-family: var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
     font-size: 18px;
     font-weight: 700;
     line-height: 27px;
@@ -330,7 +327,7 @@ a {
 
   .mobile-gate__copy {
     margin: 0;
-    font-family: var(--font);
+    font-family: var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
     font-size: 18px;
     font-weight: 400;
     line-height: 27px;
@@ -669,7 +666,7 @@ main:not([class]) {
   border-radius: 60px;
   background: #f0f0f0;
   color: var(--color-text);
-  font-family: var(--font);
+  font-family: var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-size: 21px;
   font-weight: 400;
   line-height: 1.5;
@@ -836,7 +833,7 @@ main:not([class]) {
 
 .project-page__title {
   margin: 0;
-  font-family: var(--font-din);
+  font-family: var(--typekit-urw-din), sans-serif;
   font-size: clamp(2.5rem, 8vw, 4rem);
   font-weight: 900;
   line-height: 1.25;
@@ -1617,7 +1614,7 @@ main.project-page + .site-chrome-footer .closing {
   flex-shrink: 0;
   border-radius: 8px;
   background-color: #3b3b3b;
-  font-family: var(--font);
+  font-family: var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-size: 16px;
   font-weight: 800;
   line-height: 24px;
@@ -1636,7 +1633,7 @@ main.project-page + .site-chrome-footer .closing {
   flex-shrink: 0;
   border-radius: 8px;
   background-color: #f53e56;
-  font-family: var(--font);
+  font-family: var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-size: 16px;
   font-weight: 800;
   line-height: 24px;
@@ -1655,7 +1652,7 @@ main.project-page + .site-chrome-footer .closing {
   flex-shrink: 0;
   border-radius: 8px;
   background-color: #546dec;
-  font-family: var(--font);
+  font-family: var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-size: 16px;
   font-weight: 800;
   line-height: 24px;
@@ -1666,7 +1663,7 @@ main.project-page + .site-chrome-footer .closing {
 .case-sales-mgmt-p05__point-badge-text,
 .case-sales-mgmt-p07__pain-badge-text,
 .case-sales-mgmt-p09__solution-badge-text {
-  font-family: var(--font);
+  font-family: var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-size: 16px;
   font-weight: 800;
   line-height: 24px;
@@ -1678,7 +1675,7 @@ main.project-page + .site-chrome-footer .closing {
 .case-sales-mgmt-p07__pain-title,
 .case-sales-mgmt-p09__solution-title {
   margin: 12px 0 0;
-  font-family: var(--font);
+  font-family: var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-size: 21px;
   font-weight: 800;
   line-height: 31.5px;
@@ -1690,7 +1687,7 @@ main.project-page + .site-chrome-footer .closing {
 .case-sales-mgmt-p07__pain-text,
 .case-sales-mgmt-p09__solution-text {
   margin: 12px 0 0;
-  font-family: var(--font);
+  font-family: var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-size: 18px;
   font-weight: 400;
   line-height: 27px;
@@ -1753,7 +1750,7 @@ main.project-page + .site-chrome-footer .closing {
   padding: 4px 8px;
   border-radius: 8px;
   background-color: #eeeeee;
-  font-family: var(--font);
+  font-family: var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-size: 16px;
   font-weight: 500;
   line-height: 24px;
@@ -1763,7 +1760,7 @@ main.project-page + .site-chrome-footer .closing {
 }
 
 .case-sales-mgmt-p06__kpi-value {
-  font-family: var(--font);
+  font-family: var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-size: 32px;
   font-weight: 900;
   line-height: 48px;
@@ -1834,7 +1831,7 @@ main.project-page + .site-chrome-footer .closing {
 /* EN 3열 본문 열 한글 아이브로(타이틀↔본문 사이) — 섹션10 동일 타이포 */
 .case-en-section-eyebrow {
   margin: 0 0 8px;
-  font-family: var(--font);
+  font-family: var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-size: 18px;
   font-weight: 700;
   line-height: 27px;
@@ -1860,7 +1857,7 @@ main.project-page + .site-chrome-footer .closing {
 /* EN 3열 본문 열 우측 한글 H2 — 타이틀↔아이브로 24px(아이브로↔본문 8px는 __eyebrow margin) */
 .case-en-section-title {
   margin: 0 0 24px;
-  font-family: var(--font);
+  font-family: var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-size: 32px;
   font-weight: 700;
   line-height: 48px;
@@ -1883,7 +1880,7 @@ main.project-page + .site-chrome-footer .closing {
 
 .case-en-section-text {
   margin: 0;
-  font-family: var(--font);
+  font-family: var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-size: 18px;
   font-weight: 400;
   line-height: 27px;
@@ -1897,7 +1894,7 @@ main.project-page + .site-chrome-footer .closing {
 
 .case-en-section-lead {
   margin: 0 0 48px;
-  font-family: var(--font);
+  font-family: var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-size: 18px;
   font-weight: 400;
   line-height: 27px;
@@ -1983,7 +1980,7 @@ main.project-page + .site-chrome-footer .closing {
 
 .case-handdraw__text {
   margin: 0;
-  font-family: "Permanent Marker", var(--font);
+  font-family: "Permanent Marker", var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-size: 18px;
   font-weight: 400;
   line-height: 27px;
@@ -1998,7 +1995,7 @@ main.project-page + .site-chrome-footer .closing {
 
 .case-en-label-en {
   margin: 0;
-  font-family: var(--font);
+  font-family: var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-size: 24px;
   font-weight: 400;
   line-height: 33.4140625px;
@@ -2044,7 +2041,7 @@ main.project-page + .site-chrome-footer .closing {
 .case-section09__text,
 .case-designsys__text {
   margin: 0;
-  font-family: var(--font);
+  font-family: var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-size: 18px;
   font-weight: 400;
   line-height: 27px;
@@ -2076,7 +2073,7 @@ main.project-page + .site-chrome-footer .closing {
   margin: 0;
   padding: 0;
   max-width: calc(100% - 2 * clamp(20px, 4vw, 56px));
-  font-family: var(--font);
+  font-family: var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-size: 18px;
   font-weight: 700;
   line-height: 21.5px;
@@ -2471,7 +2468,7 @@ main.project-page + .site-chrome-footer .closing {
   margin: 0;
   max-width: 1088px;
   padding-top: 0;
-  font-family: var(--font);
+  font-family: var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-size: clamp(22px, 2.5vw, 30px);
   font-weight: 300;
   line-height: 48px;
@@ -2500,7 +2497,7 @@ main.project-page + .site-chrome-footer .closing {
   min-height: 24px;
   border-radius: 8px;
   background: #11c623;
-  font-family: var(--font);
+  font-family: var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-size: 16px;
   font-weight: 800;
   line-height: 24px;
@@ -2577,7 +2574,7 @@ main.project-page + .site-chrome-footer .closing {
   margin: 0;
   max-width: 1088px;
   padding-top: 0;
-  font-family: var(--font);
+  font-family: var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-size: clamp(22px, 2.5vw, 30px);
   font-weight: 300;
   line-height: 48px;
@@ -2603,7 +2600,7 @@ main.project-page + .site-chrome-footer .closing {
   min-height: 24px;
   border-radius: 8px;
   background: #11c623;
-  font-family: var(--font);
+  font-family: var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-size: 16px;
   font-weight: 800;
   line-height: 24px;
@@ -2675,7 +2672,7 @@ main.project-page + .site-chrome-footer .closing {
 
 .case-section10__title {
   margin: 0 0 24px;
-  font-family: var(--font);
+  font-family: var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-size: 32px;
   font-weight: 700;
   line-height: 48px;
@@ -2685,7 +2682,7 @@ main.project-page + .site-chrome-footer .closing {
 
 .case-section10__text {
   margin: 0;
-  font-family: var(--font);
+  font-family: var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-size: 18px;
   font-weight: 400;
   line-height: 27px;
