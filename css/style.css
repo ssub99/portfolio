@@ -1466,11 +1466,6 @@ main.project-page + .site-chrome-footer .closing {
   max-width: none;
 }
 
-/* 섹션14: 타이틀 직후 단일 lead 내 아이브로 */
-.case-selflive-p14__lead-eyebrow {
-  display: block;
-}
-
 .case-selflive-p06__eyebrow.case-en-section-eyebrow,
 .case-selflive-p08__eyebrow.case-en-section-eyebrow,
 .case-selflive-p11__eyebrow.case-en-section-eyebrow {
@@ -1515,20 +1510,30 @@ main.project-page + .site-chrome-footer .closing {
   height: auto;
 }
 
-/* 섹션14 보조지표 통 PNG: 가로는 main.case-study 인셋만(이중 --space-page 금지)·figure max 1776·radius 없음 */
+/* ===== 셀프라이브 섹션14 (Project Results) ===== */
+.case-selflive-p14__lead-eyebrow {
+  display: block;
+}
+
+/* 본문 연속 figure: 간격 48px(전역 figure 하단 56px는 첫 장에서만 제거 후 둘째에 margin-top) */
+.case-selflive-p14__main .case-en-main-stack__figure:first-of-type {
+  margin-bottom: 0;
+}
+
+.case-selflive-p14__main .case-en-main-stack__figure + .case-en-main-stack__figure {
+  margin-top: 48px;
+}
+
+/* 하단 통 PNG: 본문 블록과 48px · figure 폭 상한 --max-content */
 .case-selflive-p14__visual {
-  box-sizing: border-box;
-  width: 100%;
-  max-width: none;
-  margin: 0;
-  padding: 0;
+  margin-top: 48px;
 }
 
 .case-selflive-p14__visual .case-selflive-p14__figure {
   box-sizing: border-box;
   width: 100%;
   max-width: var(--max-content);
-  margin: 0 auto;
+  margin-inline: auto;
   line-height: 0;
 }
 
