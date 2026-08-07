@@ -612,6 +612,7 @@ main:not([class]) {
 .project-grid [data-reveal]:nth-child(4) { transition-delay: 0.04s; }
 .project-grid [data-reveal]:nth-child(5) { transition-delay: 0.08s; }
 .project-grid [data-reveal]:nth-child(6) { transition-delay: 0.12s; }
+.project-grid [data-reveal]:nth-child(7) { transition-delay: 0.06s; }
 
 /* Case study 메인: 블록별 스크롤 리빌(직계 자식만, 푸터 제외) */
 .case-study > [data-reveal]:nth-child(1) { transition-delay: 0.02s; }
@@ -649,10 +650,8 @@ main:not([class]) {
   justify-content: space-between;
   gap: 16px;
   width: 100%;
-  max-width: var(--max-content);
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 72px;
+  max-width: none;
+  margin: 0 0 72px;
   padding: 0;
 }
 
@@ -742,9 +741,9 @@ main:not([class]) {
 /* ===== Closing(피그마 Frame 14: 상·하 39px — 가로 인셋은 .site-chrome-footer 한 번만) ===== */
 .closing {
   box-sizing: border-box;
-  max-width: var(--max-content);
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
+  max-width: none;
+  margin: 0;
   padding: 39px 0;
 }
 
@@ -754,22 +753,39 @@ main:not([class]) {
   margin: 0;
   display: flex;
   flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
   gap: clamp(2rem, 4vw, 64px);
 }
 
 .closing__line {
   margin: 0;
+  flex: 0 1 auto;
+  max-width: min(100%, 24rem);
   font-size: clamp(1rem, 2.2vw, 1.3125rem);
   font-weight: 500;
   line-height: 1.2;
   color: var(--color-quote);
 }
 
+.closing__line:last-child {
+  text-align: right;
+}
+
 /* ===== Footer(클로징 카피 + 연락처 한 덩어리) ===== */
-/* 가로 --space-page: 여기 한 번만(예전: pager·closing·site-footer__inner 각각 중복) */
+/* 가로 레이아웃: 헤더(.site-header__inner)와 동일 — width 100%, max-width 없음, --space-page 한 번만 */
 .site-chrome-footer {
   box-sizing: border-box;
   margin-top: clamp(2rem, 5vw, 4rem);
+  padding: 0;
+}
+
+.site-chrome-footer > .project-pager,
+.site-chrome-footer__reveal {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
   padding-left: var(--space-page);
   padding-right: var(--space-page);
 }
@@ -787,9 +803,8 @@ main:not([class]) {
 .site-footer__inner {
   box-sizing: border-box;
   width: 100%;
-  max-width: var(--max-content);
-  margin-left: auto;
-  margin-right: auto;
+  max-width: none;
+  margin: 0;
   padding: 0;
   display: flex;
   flex-wrap: wrap;
@@ -800,7 +815,7 @@ main:not([class]) {
 
 .site-footer__copy {
   margin: 0;
-  font-size: 18px;
+  font-size: clamp(1rem, 2.2vw, 1.125rem);
   font-weight: 700;
   color: var(--color-quote);
 }
@@ -809,7 +824,7 @@ main:not([class]) {
   display: flex;
   flex-wrap: wrap;
   gap: 1.5rem 2rem;
-  font-size: 18px;
+  font-size: clamp(1rem, 2.2vw, 1.125rem);
 }
 
 .site-footer__contact a {
@@ -933,8 +948,12 @@ main.project-page + .site-chrome-footer .closing {
     z-index: 6;
   }
 
-  .project-page .project-list > .project-card:nth-child(n + 7) {
+  .project-page .project-list > .project-card:nth-child(7) {
     z-index: 7;
+  }
+
+  .project-page .project-list > .project-card:nth-child(n + 8) {
+    z-index: 8;
   }
 }
 
@@ -1161,6 +1180,72 @@ main.project-page + .site-chrome-footer .closing {
   font-weight: 700;
   line-height: 1.2;
   color: #3d3d3d;
+}
+
+.project-metric__value-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.project-metric__trend {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 16px;
+  height: 10px;
+  line-height: 0;
+}
+
+.project-metric__trend img {
+  display: block;
+  width: 16px;
+  height: 10px;
+}
+
+/* simplecreate 카드 지표 — 피그마 Frame 18: [지표|구분선]×3 · gap 24 · 구분선 48px · 값 33px · 화살표 16×10 · gap 12 */
+.project-metrics--frame18 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 24px;
+}
+
+.project-metrics--frame18 .project-metrics__unit {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.project-metrics--frame18 .project-metrics__rule {
+  width: 1px;
+  height: 48px;
+  margin: 0;
+  background: #d0d0d0;
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.project-metrics--frame18 .project-metric {
+  gap: 8px;
+}
+
+.project-metrics--frame18 .project-metric__label {
+  line-height: 25px;
+}
+
+.project-metrics--frame18 .project-metric__value-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 33px;
+}
+
+.project-metrics--frame18 .project-metric__value {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 33px;
 }
 
 .project-metrics--selflive .project-metric__pair {
@@ -1552,6 +1637,7 @@ main.project-page + .site-chrome-footer .closing {
 .case-liveclass-p03 .case-fullbleed__inner,
 .case-payment-p02 .case-fullbleed__inner,
 .case-payment-p04 .case-fullbleed__inner,
+.case-simplecreate-p02 .case-fullbleed__inner,
 .case-rallyzds-p02 > .case-fullbleed__inner {
   background-color: #fafafa;
 }
