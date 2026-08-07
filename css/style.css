@@ -1642,6 +1642,23 @@ main.project-page + .site-chrome-footer .closing {
   background-color: #fafafa;
 }
 
+/* simplecreate 섹션02: 카피 ↔ fullbleed — flush-next 대신 fullbleed 상단 72px */
+.case-simplecreate-p02 > .case-fullbleed__inner {
+  margin-top: 72px;
+}
+
+/* simplecreate 섹션02~04: 본문↔비주얼 간격은 content-inner 72px만 — lead 하단 48px 제거 */
+.case-simplecreate-p02 .case-en-section-lead,
+.case-simplecreate-p03 .case-en-section-lead,
+.case-simplecreate-p04 .case-en-section-lead {
+  margin-bottom: 0;
+}
+
+/* simplecreate 섹션04: visual01 ↔ visual02 — 피그마 15px */
+.case-simplecreate-p04 > .case-en-figure-band + .case-en-figure-band {
+  margin-top: 15px;
+}
+
 .case-sales-mgmt-p01 .case-en-main > .case-en-main-stack__figure {
   margin-top: 56px;
   margin-bottom: 0;
