@@ -1638,20 +1638,34 @@ main.project-page + .site-chrome-footer .closing {
 .case-payment-p02 .case-fullbleed__inner,
 .case-payment-p04 .case-fullbleed__inner,
 .case-simplecreate-p02 .case-fullbleed__inner,
+.case-fluid-p01 .case-fullbleed__inner,
 .case-rallyzds-p02 > .case-fullbleed__inner {
   background-color: #fafafa;
 }
 
 /* simplecreate 섹션02: 카피 ↔ fullbleed — flush-next 대신 fullbleed 상단 72px */
-.case-simplecreate-p02 > .case-fullbleed__inner {
+.case-simplecreate-p02 > .case-fullbleed__inner,
+.case-fluid-p01 > .case-fullbleed__inner {
   margin-top: 72px;
 }
 
 /* simplecreate 섹션02~04: 본문↔비주얼 간격은 content-inner 72px만 — lead 하단 48px 제거 */
 .case-simplecreate-p02 .case-en-section-lead,
 .case-simplecreate-p03 .case-en-section-lead,
-.case-simplecreate-p04 .case-en-section-lead {
+.case-simplecreate-p04 .case-en-section-lead,
+.case-fluid-p02 .case-en-section-lead,
+.case-fluid-p03 .case-en-section-lead {
   margin-bottom: 0;
+}
+
+/* fluid 섹션01: 본문 스택 figure ↔ fullbleed — lead 제거 후 figure 하단도 정리 */
+.case-fluid-p01 .case-en-main-stack__figure {
+  margin-bottom: 0;
+}
+
+/* fluid 섹션02: visual01~03 밴드 간격 — 피그마 ~48px */
+.case-fluid-p02 > .case-en-figure-band + .case-en-figure-band {
+  margin-top: 48px;
 }
 
 /* simplecreate 섹션04: visual01 ↔ visual02 — 피그마 15px */

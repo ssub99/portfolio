@@ -319,6 +319,7 @@
 /** 프로젝트 상세: 이전/다음 순환(project.html 카드 순서와 동일). HTML href가 누락·캐시되어도 동작 보장 */
 (function () {
   var order = [
+    "project-fluid.html",
     "project-simplecreate.html",
     "project-awallet.html",
     "project-selflive.html",
