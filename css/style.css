@@ -550,7 +550,8 @@ main:not([class]) {
 }
 
 .project-card__link:hover .project-card__media,
-.project-card__link:focus-visible .project-card__media {
+.project-card__link:focus-visible .project-card__media,
+.project-card__link.is-lock-held .project-card__media {
   transform: translateY(-6px);
   box-shadow: 0 24px 48px rgba(0, 0, 0, 0.08);
 }
@@ -2967,4 +2968,168 @@ main.project-page + .site-chrome-footer .closing {
     border-radius: clamp(22px, 8vw, 32px);
   }
 
+}
+
+/* ===== Project lock (임시 비밀번호 모달) ===== */
+html.project-lock-open {
+  overscroll-behavior: none;
+}
+
+html.project-lock-pending body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+}
+
+.project-lock {
+  position: fixed;
+  inset: 0;
+  z-index: 510;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px var(--space-page);
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease-in-out;
+}
+
+.project-lock.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.project-lock[hidden] {
+  display: none !important;
+}
+
+.project-lock__panel {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 420px;
+  padding: 40px 32px 36px;
+  border: 1px solid var(--color-card-border);
+  border-radius: 24px;
+  background: var(--color-bg);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.12);
+  text-align: center;
+  transform: translate3d(0, 8px, 0);
+  transition: transform 0.18s ease-in-out;
+}
+
+.project-lock.is-open .project-lock__panel {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-lock,
+  .project-lock__panel {
+    transition: none;
+  }
+}
+
+.project-lock__close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-muted);
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.project-lock__close:hover,
+.project-lock__close:focus-visible {
+  color: var(--color-text);
+  outline: none;
+}
+
+.project-lock__eyebrow {
+  margin: 0 0 12px;
+  font-family: var(--typekit-urw-din), sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+}
+
+.project-lock__title {
+  margin: 0 0 32px;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.project-lock__form {
+  margin: 0;
+}
+
+.project-lock__digits {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.project-lock__digit {
+  box-sizing: border-box;
+  width: 56px;
+  height: 64px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--color-card-border);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--color-text);
+  font-family: var(--typekit-urw-din), sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 62px;
+  text-align: center;
+  caret-color: transparent;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.project-lock__digit:focus {
+  outline: none;
+  border-color: var(--color-text);
+}
+
+.project-lock__digits.is-error .project-lock__digit {
+  border-color: var(--color-badge);
+}
+
+.project-lock__error {
+  margin: 14px 0 0;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--color-badge);
+}
+
+@media (max-width: 799px) {
+  .project-lock__panel {
+    padding: 36px 20px 28px;
+  }
+
+  .project-lock__digit {
+    width: 52px;
+    height: 60px;
+    font-size: 24px;
+    line-height: 58px;
+  }
 }

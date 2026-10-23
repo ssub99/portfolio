@@ -223,6 +223,7 @@
 
   function syncCompact() {
     ticking = false;
+    if (document.documentElement.classList.contains("project-lock-open")) return;
     var y = window.scrollY || document.documentElement.scrollTop;
     header.classList.toggle("site-header--compact", y > threshold);
   }
@@ -442,6 +443,7 @@
       /* Lenis rAF 루프에서만 동기화 */
     }
     rafId = requestAnimationFrame(loop);
+    window.portfolioLenis = lenis;
   }
 
   function stop() {
@@ -453,6 +455,7 @@
       lenis.destroy();
       lenis = null;
     }
+    window.portfolioLenis = null;
   }
 
   function syncReducedMotion() {
