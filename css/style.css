@@ -1485,6 +1485,11 @@ main.project-page + .site-chrome-footer .closing {
   max-width: 876px;
 }
 
+/* 셀프라이브 섹션00 H1: 첫 줄(자연유입으로 유입된 사용자를 위한)이 한 줄로 들어가도록 폭 확장 */
+.case-body__title--case-hero-selflive {
+  max-width: 900px;
+}
+
 /* 케이스 히어로 메타: 2×2 — 수행기간·담당역할 / 참여도·참여인원 */
 .case-meta--case-hero {
   grid-template-columns: minmax(0, auto) minmax(0, 1fr);
