@@ -1545,6 +1545,44 @@ main.project-page + .site-chrome-footer .closing {
   max-width: none;
 }
 
+/* 셀프라이브: 본문 칼럼(1088) 안 figure 간격 */
+.case-selflive-p03 .case-selflive-p03__figure {
+  margin-top: 72px;
+}
+
+.case-selflive-p12__main .case-en-main-stack__figure {
+  margin: 0 0 16px;
+}
+
+.case-selflive-p12__main .case-en-section-text + .case-en-main-stack__figure {
+  margin-top: 48px;
+}
+
+.case-selflive-p12__main .case-en-main-stack__figure:last-child {
+  margin-bottom: 0;
+}
+
+/* 셀프라이브 The first task: 06-visual01 상단 라벨이 프레임 위로 13px 겹쳐 있어 소개 문장↔라벨 59px(피그마) */
+.case-selflive-p08__main .case-en-main-stack__figure {
+  padding-top: 11px;
+}
+
+/* 셀프라이브 The first task: 06-visual02 하단 ↔ 다음 섹션 128px(피그마) = 섹션 간격 96 + 32 */
+.case-selflive-p08 {
+  padding-bottom: 32px;
+}
+
+/* 셀프라이브: 통 비주얼 다음 1776 밴드 — 피그마 96px */
+.case-selflive-p08 > .case-selflive-p08__figure2,
+.case-selflive-p11 > .case-selflive-p11__figure2 {
+  margin-top: 96px;
+}
+
+/* 셀프라이브 섹션10: 섹션09 통 비주얼 ↔ 섹션10 통 비주얼 — 피그마 72px */
+.case-selflive-p10 {
+  margin-top: 72px;
+}
+
 .case-selflive-p07 {
   margin-top: 0;
   box-sizing: border-box;
@@ -1629,6 +1667,12 @@ main.project-page + .site-chrome-footer .closing {
   background-color: #fafafa;
 }
 
+/* 셀프라이브 섹션11(section08-visual01): 회색 채움은 스텝 점선(프레임 상단)부터 — 그 위로 삐져나온 원 윗부분(상단 32px/1440px)은 흰 배경 */
+.case-selflive-p11__visual.case-study-visual-band {
+  background-color: #ffffff;
+  background-image: linear-gradient(to bottom, transparent 0, transparent 2.2222%, #fafafa 2.2222%, #fafafa 100%);
+}
+
 .case-selflive-p06__visual.case-study-visual-band,
 .case-selflive-p09__visual.case-study-visual-band,
 .case-selflive-p12__visual.case-study-visual-band {
@@ -1639,14 +1683,13 @@ main.project-page + .site-chrome-footer .closing {
 .case-payment-p02 .case-fullbleed__inner,
 .case-payment-p04 .case-fullbleed__inner,
 .case-simplecreate-p02 .case-fullbleed__inner,
-.case-fluid-p01 .case-fullbleed__inner,
+.case-fluid-p03 .case-fullbleed__inner,
 .case-rallyzds-p02 > .case-fullbleed__inner {
   background-color: #fafafa;
 }
 
 /* simplecreate 섹션02: 카피 ↔ fullbleed — flush-next 대신 fullbleed 상단 72px */
-.case-simplecreate-p02 > .case-fullbleed__inner,
-.case-fluid-p01 > .case-fullbleed__inner {
+.case-simplecreate-p02 > .case-fullbleed__inner {
   margin-top: 72px;
 }
 
@@ -1654,19 +1697,71 @@ main.project-page + .site-chrome-footer .closing {
 .case-simplecreate-p02 .case-en-section-lead,
 .case-simplecreate-p03 .case-en-section-lead,
 .case-simplecreate-p04 .case-en-section-lead,
-.case-fluid-p02 .case-en-section-lead,
-.case-fluid-p03 .case-en-section-lead {
+.case-fluid-p03 .case-en-section-lead,
+.case-fluid-p04 .case-en-section-lead {
   margin-bottom: 0;
 }
 
-/* fluid 섹션01: 본문 스택 figure ↔ fullbleed — lead 제거 후 figure 하단도 정리 */
-.case-fluid-p01 .case-en-main-stack__figure {
+/* fluid 섹션01·02: 본문 스택 figure 하단 여백 제거 */
+.case-fluid-p01 .case-en-main-stack__figure,
+.case-fluid-p02 .case-en-main-stack__figure {
   margin-bottom: 0;
 }
 
-/* fluid 섹션02: visual01~03 밴드 간격 — 피그마 ~48px */
-.case-fluid-p02 > .case-en-figure-band + .case-en-figure-band {
-  margin-top: 48px;
+/* fluid 섹션02: Problem 본문 figure(1088) ↔ 통 밴드(1776) — 피그마 96px */
+.case-fluid-p02 > .case-en-figure-band {
+  margin-top: 96px;
+}
+
+/* fluid 섹션03: visual01 ↔ fullbleed(visual02) 96px, 이후 visual03·04 는 32px 간격 */
+.case-fluid-p03 > .case-en-figure-band:first-of-type {
+  margin-top: 0;
+}
+
+.case-fluid-p03 > .case-fullbleed__inner {
+  margin-top: 96px;
+}
+
+.case-fluid-p03 > .case-fullbleed__inner + .case-en-figure-band,
+.case-fluid-p03 > .case-en-figure-band + .case-en-figure-band {
+  margin-top: 32px;
+}
+
+/* fluid 섹션05: 성과 칩(라벨 + 수치) */
+.case-fluid-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 32px;
+  margin: 24px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.case-fluid-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.case-fluid-chip__label {
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  height: 32px;
+  padding: 4px 7px;
+  border-radius: 8px;
+  background: #eee;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  color: #616161;
+}
+
+.case-fluid-chip__value {
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 24px;
+  color: #565656;
 }
 
 /* simplecreate 섹션04: visual01 ↔ visual02 — 피그마 15px */
