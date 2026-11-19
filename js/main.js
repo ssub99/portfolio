@@ -51,52 +51,107 @@
   /** 리빌이 켜지는 시점을 살짝 늦춤: 요소 상단이 뷰포트 하단에서 이 px만큼 더 올라와야 트리거(IO rootMargin 하단 음수와 동일 기준) */
   var revealTriggerInsetPx = 160;
 
-  /** 프로젝트 상세 .case-hero: 내부 img 로드 완료 후 리빌(빈 프레임 깜빡임 완화). 타임아웃 시에도 진행 */
+  /**
+   * 프로젝트 상세 .case-hero: 구성 요소(이미지 디코드 · Lottie 로드/첫 프레임)가 전부 준비된 뒤에만 한 번에 표시한다.
+   * - 이미지: load 뒤 decode()까지 기다려 부분 렌더링(위에서부터 그려지는 현상)을 막는다.
+   * - Lottie([data-lottie-src]): hero-lottie.js 가 data-lottie-ready / "lottie:ready" 로 알린다.
+   * - 완료되면 .is-hero-ready 를 붙인다(모션 줄이기 환경에서도 이 클래스 전까지 숨김 · css 참고).
+   * - 어떤 요소가 끝내 준비되지 않아도 12초 뒤에는 표시한다.
+   */
+  function heroReady(el) {
+    if (el.__heroReady) return el.__heroReady;
+
+    var tasks = [];
+
+    Array.prototype.forEach.call(el.querySelectorAll("img"), function (img) {
+      tasks.push(
+        new Promise(function (resolve) {
+          function decode() {
+            if (img.decode) img.decode().then(resolve, resolve);
+            else resolve();
+          }
+          if (img.complete) decode();
+          else {
+            img.addEventListener("load", decode, { once: true });
+            img.addEventListener("error", resolve, { once: true });
+          }
+        })
+      );
+    });
+
+    Array.prototype.forEach.call(el.querySelectorAll("[data-lottie-src]"), function (host) {
+      tasks.push(
+        new Promise(function (resolve) {
+          if (host.getAttribute("data-lottie-ready") === "true") return resolve();
+          host.addEventListener("lottie:ready", resolve, { once: true });
+          host.addEventListener("lottie:error", resolve, { once: true });
+          /* 라이브러리 자체가 로드되지 않은 경우(차단·오프라인) 무한 대기 방지 */
+          window.addEventListener(
+            "load",
+            function () {
+              setTimeout(function () {
+                if (!window.lottie) resolve();
+              }, 0);
+            },
+            { once: true }
+          );
+        })
+      );
+    });
+
+    var timeout = new Promise(function (resolve) {
+      setTimeout(resolve, 12000);
+    });
+
+    var heroImgs = Array.prototype.slice.call(el.querySelectorAll("img"));
+
+    function redecodeAll() {
+      return Promise.all(
+        heroImgs.map(function (img) {
+          return img.decode ? img.decode().catch(function () {}) : Promise.resolve();
+        })
+      );
+    }
+
+    function frames(n) {
+      return new Promise(function (resolve) {
+        (function tick(left) {
+          if (left <= 0) return resolve();
+          requestAnimationFrame(function () {
+            tick(left - 1);
+          });
+        })(n);
+      });
+    }
+
+    el.__heroReady = Promise.race([Promise.all(tasks), timeout])
+      .then(function () {
+        /* 큰 이미지가 async 디코드로 뒤늦게 그려지는 것을 막기 위해 동기 디코드로 전환 */
+        heroImgs.forEach(function (img) {
+          img.decoding = "sync";
+        });
+        /* 워밍업: 거의 투명(0.001)한 상태로 먼저 그려 디코드·래스터를 끝낸 뒤 공개한다 */
+        el.classList.add("is-hero-warm");
+        return frames(3);
+      })
+      .then(redecodeAll)
+      .then(function () {
+        return frames(2);
+      })
+      .then(function () {
+        el.classList.add("is-hero-ready");
+        if (reduceMotion) el.classList.remove("is-hero-warm");
+      });
+
+    return el.__heroReady;
+  }
+
   function whenHeroMainVisualReady(el, then) {
     if (!el.classList || !el.classList.contains("case-hero")) {
       then();
       return;
     }
-    var imgs = el.querySelectorAll("img");
-    if (!imgs.length) {
-      then();
-      return;
-    }
-    var pending = 0;
-    Array.prototype.forEach.call(imgs, function (img) {
-      if (!img.complete) pending += 1;
-    });
-    if (pending === 0) {
-      then();
-      return;
-    }
-    var called = false;
-    function done() {
-      if (called) return;
-      called = true;
-      then();
-    }
-    var left = pending;
-    Array.prototype.forEach.call(imgs, function (img) {
-      if (img.complete) return;
-      img.addEventListener(
-        "load",
-        function () {
-          left -= 1;
-          if (left <= 0) done();
-        },
-        { once: true }
-      );
-      img.addEventListener(
-        "error",
-        function () {
-          left -= 1;
-          if (left <= 0) done();
-        },
-        { once: true }
-      );
-    });
-    setTimeout(done, 12000);
+    heroReady(el).then(then);
   }
 
   /**
@@ -108,7 +163,10 @@
     whenHeroMainVisualReady(el, function () {
       requestAnimationFrame(function () {
         requestAnimationFrame(function () {
-          if (!el.classList.contains("is-visible")) el.classList.add("is-visible");
+          if (!el.classList.contains("is-visible")) {
+            el.classList.add("is-visible");
+            el.classList.remove("is-hero-warm");
+          }
         });
       });
     });
@@ -148,6 +206,9 @@
   window.portfolioScheduleRevealSync = scheduleRevealGeometrySync;
 
   function initReveal() {
+    /* 모션 설정과 무관하게 히어로 준비 상태는 항상 추적한다 */
+    document.querySelectorAll(".case-hero").forEach(heroReady);
+
     if (reduceMotion) {
       document.querySelectorAll("[data-reveal]").forEach(function (el) {
         el.classList.add("is-visible");

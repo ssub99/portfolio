@@ -606,6 +606,22 @@ main:not([class]) {
   }
 }
 
+/* 히어로 워밍업: 공개 직전에 거의 투명한 상태로 먼저 그려 디코드·래스터를 끝낸다(공개 시 요소가 따로 뜨지 않도록) */
+.case-hero[data-reveal].is-hero-warm:not(.is-visible) {
+  opacity: 0.001;
+}
+
+/* 프로젝트 상세 히어로: 이미지·Lottie가 전부 준비(.is-hero-ready)되기 전에는 모션 설정과 무관하게 숨김 */
+@media (prefers-reduced-motion: reduce) {
+  .case-hero[data-reveal]:not(.is-hero-ready) {
+    opacity: 0;
+  }
+
+  .case-hero[data-reveal].is-hero-warm:not(.is-hero-ready) {
+    opacity: 0.001;
+  }
+}
+
 /* Stagger children in grid */
 .project-grid [data-reveal]:nth-child(1) { transition-delay: 0.02s; }
 .project-grid [data-reveal]:nth-child(2) { transition-delay: 0.06s; }
@@ -1350,6 +1366,51 @@ main.project-page + .site-chrome-footer .closing {
   display: block;
 }
 
+/* ---------- automaticrecording 히어로: 피그마 section00-visual01 (1776×880) 좌표를 %로 환산 ----------
+   스테이지가 컨테이너 폭에 맞춰 비율 그대로 스케일되므로 디스플레이 크기·브라우저 확대/축소에 함께 대응한다. */
+.case-hero-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1776 / 880;
+  background: linear-gradient(180deg, #e7efec 0%, #98eec6 100%);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* 기존 .case-hero__frame img { width: 100% } 보다 우선하도록 img.클래스로 지정 */
+.case-hero-stage img,
+.case-hero-stage__screen {
+  position: absolute;
+  max-width: none;
+  pointer-events: none;
+  user-select: none;
+}
+
+.case-hero-stage img.case-hero-stage__texture { left:0.0000%;top:-5.6818%;width:100.0000%;height:115.0000%; }
+.case-hero-stage img.case-hero-stage__hand { left:31.3063%;top:8.1818%;width:37.3874%;height:91.8182%; }
+.case-hero-stage img.case-hero-stage__island { left:46.8768%;top:11.1025%;width:5.6126%;height:3.2857%; }
+.case-hero-stage img.case-hero-stage__thumb { left:38.5936%;top:56.1901%;width:4.2095%;height:25.9208%; }
+
+/* Lottie 화면: 아이폰 화면 영역(393×852 기준 모서리 반경 55) — 손 이미지의 잠금화면 위를 덮는다 */
+.case-hero-stage__screen {
+  left:40.8115%;top:9.9616%;width:17.7884%;height:77.7625%;
+  border-radius: 14% / 6.46%;
+  overflow: hidden;
+  background: transparent;
+  line-height: 0;
+}
+
+.case-hero-stage__screen .lottie-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.case-hero-stage img.case-hero-stage__hand { z-index: 1; }
+.case-hero-stage__screen { z-index: 2; }
+.case-hero-stage img.case-hero-stage__island { z-index: 3; }
+.case-hero-stage img.case-hero-stage__thumb { z-index: 4; }
+
 /* ---------- 본문·그리드(히어로 메타·Selflive) ---------- */
 
 /* 히어로 ↔ 본문 메타: --case-study-section-gap 과 동일 */
@@ -1688,6 +1749,7 @@ main.project-page + .site-chrome-footer .closing {
 .case-payment-p02 .case-fullbleed__inner,
 .case-payment-p04 .case-fullbleed__inner,
 .case-simplecreate-p02 .case-fullbleed__inner,
+.case-automaticrecording-p02 .case-fullbleed__inner,
 .case-fluid-p03 .case-fullbleed__inner,
 .case-rallyzds-p02 > .case-fullbleed__inner {
   background-color: #fafafa;
@@ -1702,6 +1764,10 @@ main.project-page + .site-chrome-footer .closing {
 .case-simplecreate-p02 .case-en-section-lead,
 .case-simplecreate-p03 .case-en-section-lead,
 .case-simplecreate-p04 .case-en-section-lead,
+.case-automaticrecording-p01 .case-en-section-lead,
+.case-automaticrecording-p02 .case-en-section-lead,
+.case-automaticrecording-p03 .case-en-section-lead,
+.case-automaticrecording-p04 .case-en-section-lead,
 .case-fluid-p03 .case-en-section-lead,
 .case-fluid-p04 .case-en-section-lead {
   margin-bottom: 0;
@@ -1767,6 +1833,281 @@ main.project-page + .site-chrome-footer .closing {
   font-weight: 900;
   line-height: 24px;
   color: #565656;
+}
+
+/* automaticrecording — 피그마 Project Detail_09 세로 간격 (1920 기준, 비주얼 상단 기준) */
+.case-automaticrecording-p01 .case-fullbleed__inner {
+  background-color: #fafafa;
+}
+.case-automaticrecording-p01 > .case-fullbleed__inner {
+  margin-top: 96px; /* visual01 → visual02 */
+}
+.case-automaticrecording-p02,
+.case-automaticrecording-p03 {
+  margin-top: 96px; /* 이전 비주얼 → 섹션 라벨 */
+}
+.case-automaticrecording-p03 .case-en-main-stack__figure {
+  margin: 72px 0 0; /* 본문 → visual01 */
+}
+.case-automaticrecording-p03 > .case-en-figure-band {
+  margin-top: 24px; /* content-inner 하단 72 + 24 = 96 */
+}
+.case-automaticrecording-p03 > .case-fullbleed__inner {
+  margin-top: 96px;
+  background-color: #fafafa;
+}
+.case-automaticrecording-p04 > .case-en-figure-band {
+  margin-top: -24px; /* lead → visual 48 */
+}
+
+/* ---------- automaticrecording 섹션03-03: AS-IS / TO-BE 영상 비교 (피그마 section03-visual03, 1920×1303) ----------
+   피그마 좌표(px)를 컨테이너 폭 기준 비례 단위로 환산(--u = 컨테이너 폭/1920)해 화면·확대/축소에 맞춰 함께 스케일된다. */
+.case-vcompare-wrap {
+  line-height: normal;
+}
+
+.case-vcompare {
+  --u: calc(100cqw / 1920);
+  container-type: inline-size;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1920 / 1031;
+  background: #fafafa;
+  overflow: hidden;
+  font-family: var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.case-vcompare img {
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+
+.case-vcompare__head,
+.case-vcompare__target {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.case-vcompare__head {
+  left: calc(var(--u) * 72);
+  top: calc(var(--u) * 71);
+  height: calc(var(--u) * 40);
+  gap: calc(var(--u) * 16);
+}
+
+.case-vcompare__issue {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  height: calc(var(--u) * 27);
+  padding: 0 calc(var(--u) * 6);
+  border-radius: calc(var(--u) * 8);
+  background: #3b3b3b;
+  color: #fff;
+  font-family: var(--typekit-permanent-marker), sans-serif, cursive, var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-size: calc(var(--u) * 18);
+  line-height: calc(var(--u) * 27);
+}
+
+.case-vcompare__title {
+  margin: 0;
+  font-size: calc(var(--u) * 24);
+  font-weight: 700;
+  line-height: calc(var(--u) * 36);
+  color: #323030;
+}
+
+.case-vcompare__target {
+  left: calc(var(--u) * 1691);
+  top: calc(var(--u) * 74);
+  gap: calc(var(--u) * 8);
+  font-size: calc(var(--u) * 18);
+  line-height: calc(var(--u) * 27);
+  color: #000;
+}
+
+.case-vcompare__target-label {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  height: calc(var(--u) * 37);
+  padding: 0 calc(var(--u) * 12);
+  border: 1px solid #acacac;
+  border-radius: calc(var(--u) * 12);
+  background: #fff;
+  font-weight: 700;
+}
+
+.case-vcompare__target-value {
+  font-weight: 500;
+}
+
+.case-vcompare__panel {
+  position: absolute;
+  top: calc(var(--u) * 136);
+  width: calc(var(--u) * 880);
+  height: calc(var(--u) * 823); /* 기기 상단 129 + 화면 상단 27 + 영상 667 = 823 → 영상이 끝나는 지점에서 기기를 잘라냄 */
+  border-radius: calc(var(--u) * 48);
+  background: #fff;
+  overflow: hidden;
+}
+
+.case-vcompare__panel--asis { left: calc(var(--u) * 72); }
+.case-vcompare__panel--tobe { left: calc(var(--u) * 968); }
+
+.case-vcompare__tag {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--u) * 72);
+  transform: translateX(-50%);
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  height: calc(var(--u) * 35);
+  padding: 0 calc(var(--u) * 8);
+  border-radius: calc(var(--u) * 12);
+  color: #fff;
+  font-family: var(--typekit-permanent-marker), sans-serif, cursive, var(--typekit-pretendard), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-size: calc(var(--u) * 16);
+  line-height: calc(var(--u) * 27);
+  white-space: nowrap;
+}
+
+.case-vcompare__tag--asis { background: #f53e56; }
+.case-vcompare__tag--tobe { background: #5361e6; }
+
+/* 기기: 448×866, 화면 영역 375×812 (기기 좌상단 기준 36,27). 영상이 375×667 이라 패널 하단에서 기기가 잘린 모습으로 보인다 */
+.case-vcompare__device {
+  position: absolute;
+  left: calc(var(--u) * 218);
+  top: calc(var(--u) * 129);
+  width: calc(var(--u) * 448);
+  height: calc(var(--u) * 866);
+}
+
+.case-vcompare__bezel {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  pointer-events: none;
+}
+
+.vplayer {
+  position: absolute;
+  left: calc(var(--u) * 36);
+  top: calc(var(--u) * 27);
+  width: calc(var(--u) * 375);
+  height: calc(var(--u) * 667); /* 영상 원본 비율(9:16) 그대로 — 화면 아래는 패널 하단에서 잘림 */
+  z-index: 1;
+  background: #fafafa;
+  overflow: hidden;
+}
+
+.vplayer__video {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  /* 영상 요소 자체는 포인터를 받지 않는다(우클릭 메뉴·드래그 저장 방지). 입력은 shield 가 받는다 */
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+.vplayer__video::-webkit-media-controls,
+.vplayer__video::-webkit-media-controls-enclosure,
+.vplayer__video::-webkit-media-controls-panel,
+.vplayer__video::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  -webkit-appearance: none;
+}
+
+.vplayer__shield {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  cursor: pointer;
+  background: transparent;
+}
+
+.vplayer__btn {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: calc(var(--u) * 72);
+  height: calc(var(--u) * 72);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(35, 35, 35, 0.72);
+  color: #fff;
+  cursor: pointer;
+  transform: translate(-50%, -50%) scale(1);
+  transition: opacity 0.25s ease, transform 0.25s ease, background-color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.vplayer__btn:hover {
+  background: rgba(35, 35, 35, 0.86);
+}
+
+.vplayer__btn:focus-visible {
+  outline: 3px solid #5361e6;
+  outline-offset: 3px;
+}
+
+.vplayer__icon {
+  grid-area: 1 / 1;
+  width: 46%;
+  height: 46%;
+  fill: currentColor;
+  transition: opacity 0.15s ease;
+}
+
+.vplayer__icon--pause { opacity: 0; }
+/* 재생 삼각형 광학 보정: 경로 자체가 오른쪽으로 치우쳐 있어 무게중심이 원 중심에 오도록 왼쪽으로 이동 */
+.vplayer__icon--play { transform: translateX(2%); }
+
+/* 재생 중: 일시정지 아이콘, 평소에는 숨김(마우스 올림·포커스·조작 직후에만 표시) */
+.vplayer.is-playing .vplayer__icon--play { opacity: 0; }
+.vplayer.is-playing .vplayer__icon--pause { opacity: 1; }
+.vplayer.is-playing:not(.is-ui) .vplayer__btn {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.86);
+}
+
+.vplayer.is-playing:hover .vplayer__btn,
+.vplayer.is-playing .vplayer__btn:focus-visible,
+.vplayer.is-playing.is-ui .vplayer__btn {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.vplayer.is-loading .vplayer__btn {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vplayer__btn,
+  .vplayer__icon {
+    transition: none;
+  }
 }
 
 /* simplecreate 섹션04: visual01 ↔ visual02 — 피그마 15px */
